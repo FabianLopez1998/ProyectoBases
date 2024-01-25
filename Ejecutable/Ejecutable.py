@@ -7,7 +7,7 @@ if __name__=="__main__":
 
     controlador = ControladorPrincipal(puntero)
     controlador.Iniciar()
-
+    #probando
     #app.exec()
 
     conexion.EndConection()

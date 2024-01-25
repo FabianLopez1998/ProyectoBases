@@ -10,9 +10,8 @@ class CtrlSucursal():
         self.guardarDatos()
 
     def guardarDatos(self):
-        id=5
         nombre='cuenca'
         direccion='cuenca'
         crear=Sucursal(id,nombre,direccion)
-        self.insertar.Insercion('Sucursaaal',crear)
+        self.insertar.Insercion('Sucursal',crear)
 
