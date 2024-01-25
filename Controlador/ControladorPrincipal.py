@@ -1,9 +1,17 @@
 import sys
+
+from PyQt6.QtWidgets import QMainWindow
+
+from Vista.ventana import Ui_MainWindow
 from conection import DataBaseConection
 from Controlador.CtrlSucursal import CtrlSucursal
 
-class ControladorPrincipal:
+class ControladorPrincipal(QMainWindow):
+
     def __init__(self,conexion):
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
         self.conexion=conexion
 
 
