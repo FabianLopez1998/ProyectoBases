@@ -1,5 +1,5 @@
 from conection import DataBaseConection
-import cx_Oracle
+
 class DataBaseSql():
     def __init__(self,conexion):
         self.conexion=conexion
