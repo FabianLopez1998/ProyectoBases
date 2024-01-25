@@ -17,6 +17,7 @@ class DataBaseConection:
             cursor.execute('Select version()')
             row=cursor.fetchone()
             print(row)
+            return self.connection
         except Exception as ex:
             print('Error al conectarse a la base de datos: '+ex)
             return False
@@ -25,3 +26,4 @@ class DataBaseConection:
         if self.connection:
             self.connection.close()
             print('Conexion finalizada')
+

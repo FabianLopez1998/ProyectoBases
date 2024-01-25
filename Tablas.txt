@@ -1,20 +1,23 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 create table Fabricante(
 id integer primary key,
 nombre varchar(100) not null,
 direccion varchar (255)
-)
+);
 
 create table Marca(
 id integer primary key,
 nombre varchar(100) not null,
 id_fabricante integer references Fabricante(id) 
-)
+);
 
 create table Categoria(
 id integer primary key,
 nombre varchar (100) not null,
 categoria_padre integer references Categoria(id) 
-)
+);
 
 
 create table Producto(
@@ -23,13 +26,13 @@ nombre varchar (200) not null,
 tamanio varchar (100),
 medida varchar (50),
 id_marca integer references Marca(id)
-)
+);
 
 create table Sucursal(
-id integer primary key,
+id serial primary key,
 nombre varchar (255) not null,
 direccion varchar (255) not null
-)
+);
 
 create table Cliente (
 id integer primary key,
@@ -39,14 +42,14 @@ direccion varchar (2555),
 email varchar (255),
 telefono varchar (20),
 es_socio boolean not null
-)
+);
 
 create table Factura (
 id integer primary key,
 fecha date not null,
 id_sucursal integer references Sucursal(id),
 id_cliente integer references Cliente(id)
-)
+);
 
 create table Inventario(
 id integer primary key,
@@ -54,13 +57,13 @@ id_sucursal integer references Sucursal(id),
 id_producto integer references Producto(id),
 cantidad integer not null,
 precio_base decimal (10,2) not null
-)
+);
 
 create table Producto_Categoria(
 id_producto integer references Producto(id),
 id_categoria integer references Categoria(id),
 primary key (id_producto,id_categoria)
-)
+);
 
 create table Factura_Producto(
 id_producto integer references Producto(id),
@@ -68,4 +71,4 @@ id_factura integer references Factura(id),
 cantidad integer not null,
 precio_unitario decimal(10,2) not null,
 primary key(id_producto,id_factura)
-)
+);
