@@ -13,7 +13,7 @@ class ControladorPrincipal(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.conexion=conexion
-
+        self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
         #--------------------------Pagina princpal--------------------------
         self.ui.btn_inicio.clicked.connect(self.paginicio)
         self.ui.btn_factura.clicked.connect(self.pagfactura)
@@ -21,6 +21,11 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_agregarproducto.clicked.connect(self.pagagregarproducto)
         self.ui.btn_registrar.clicked.connect(self.pagregistrar)
         self.ui.btn_info.clicked.connect(self.paginfo)
+
+
+        #Probando
+
+        self.ui.btn_buscarUser.clicked.connect(lambda: self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, True))
     def paginicio(self):
         self.ui.stackedWidget.setCurrentIndex(0)
     def pagfactura(self):
@@ -35,3 +40,9 @@ class ControladorPrincipal(QMainWindow):
 
     def paginfo(self):
         self.ui.stackedWidget.setCurrentIndex(5)
+
+    def manejoBotones(self, buscar, agregar, modificar, eliminar, estado):
+        buscar.setEnabled(not estado)
+        agregar.setEnabled(not estado)
+        modificar.setEnabled(estado)
+        eliminar.setEnabled(estado)

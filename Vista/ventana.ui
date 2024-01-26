@@ -230,9 +230,9 @@ gridline-color: rgb(0, 85, 127);</string>
     <widget class="QComboBox" name="comboBox">
      <property name="geometry">
       <rect>
-       <x>860</x>
+       <x>910</x>
        <y>40</y>
-       <width>231</width>
+       <width>181</width>
        <height>22</height>
       </rect>
      </property>
@@ -251,19 +251,6 @@ gridline-color: rgb(0, 85, 127);</string>
        <string>Guayaquil</string>
       </property>
      </item>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>780</x>
-       <y>40</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Sucursal:</string>
-     </property>
     </widget>
     <widget class="QLabel" name="label_11">
      <property name="geometry">
@@ -284,6 +271,19 @@ gridline-color: rgb(0, 85, 127);</string>
      </property>
      <property name="text">
       <string>Supermarket</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_54">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>40</y>
+       <width>47</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sucursal:</string>
      </property>
     </widget>
    </widget>
@@ -393,7 +393,7 @@ gridline-color: rgb(0, 85, 127);</string>
         </widget>
         <widget class="QLineEdit" name="txtNomSucur">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
@@ -416,7 +416,7 @@ padding-botom:7px;</string>
         </widget>
         <widget class="QLineEdit" name="txtDirSucur">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
@@ -2851,9 +2851,9 @@ padding-botom:7px;</string>
        <widget class="QGroupBox" name="groupBox">
         <property name="geometry">
          <rect>
-          <x>120</x>
+          <x>150</x>
           <y>90</y>
-          <width>681</width>
+          <width>801</width>
           <height>291</height>
          </rect>
         </property>
@@ -2865,11 +2865,11 @@ padding-botom:7px;</string>
         </property>
         <widget class="QPushButton" name="btn_buscarUser">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>640</x>
+           <x>580</x>
            <y>20</y>
            <width>31</width>
            <height>31</height>
@@ -2966,7 +2966,7 @@ QPushButton:hover{
           <item>
            <widget class="QLineEdit" name="txtIdentificacion">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2976,14 +2976,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese la identificación</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtNombres">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2993,14 +2993,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese los nombres</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtApellidos">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -3010,14 +3010,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese los apellidos</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtDireccion">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -3027,14 +3027,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese la dirección</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtTelefono">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -3044,14 +3044,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese el teléfono</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtEmail">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -3061,7 +3061,7 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese su email</string>
             </property>
            </widget>
           </item>
@@ -3106,85 +3106,89 @@ padding-botom:7px;</string>
           <string>NO.</string>
          </property>
         </widget>
-       </widget>
-       <widget class="QPushButton" name="btn_cancelaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>350</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Cancelar</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_modificaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>140</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Modificar</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_guardaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>310</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Aceptar</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_eliminaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>180</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Eliminar</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
-        </property>
+        <widget class="QPushButton" name="btn_modificaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>100</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Modificar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_agregaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>60</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Agregar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_eliminaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>140</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_cancelaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>220</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Cancelar</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="geometry">
          <rect>
-          <x>120</x>
+          <x>150</x>
           <y>390</y>
-          <width>871</width>
+          <width>801</width>
           <height>211</height>
          </rect>
         </property>
@@ -3196,31 +3200,11 @@ padding-botom:7px;</string>
           <rect>
            <x>30</x>
            <y>30</y>
-           <width>811</width>
+           <width>741</width>
            <height>161</height>
           </rect>
          </property>
         </widget>
-       </widget>
-       <widget class="QPushButton" name="btn_agregaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>100</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Agregar</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
-        </property>
        </widget>
        <widget class="QFrame" name="frame_5">
         <property name="geometry">
