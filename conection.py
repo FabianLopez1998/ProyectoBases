@@ -19,7 +19,7 @@ class DataBaseConection:
             print(row)
             return self.connection
         except Exception as ex:
-            print('Error al conectarse a la base de datos: '+ex)
+            print('Error al conectarse a la base de datos: ', ex)
             return False
 
     def EndConection(self):
