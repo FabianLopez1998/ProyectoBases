@@ -14,10 +14,24 @@ class ControladorPrincipal(QMainWindow):
         self.ui.setupUi(self)
         self.conexion=conexion
 
+        #--------------------------Pagina princpal--------------------------
+        self.ui.btn_inicio.clicked.connect(self.paginicio)
+        self.ui.btn_factura.clicked.connect(self.pagfactura)
+        self.ui.btn_abastecer.clicked.connect(self.pagabastecer)
+        self.ui.btn_agregarproducto.clicked.connect(self.pagagregarproducto)
+        self.ui.btn_registrar.clicked.connect(self.pagregistrar)
+        self.ui.btn_info.clicked.connect(self.paginfo)
+    def paginicio(self):
+        self.ui.stackedWidget.setCurrentIndex(0)
+    def pagfactura(self):
+        self.ui.stackedWidget.setCurrentIndex(1)
+    def pagabastecer(self):
+        self.ui.stackedWidget.setCurrentIndex(2)
+    def pagagregarproducto(self):
+        self.ui.stackedWidget.setCurrentIndex(3)
 
-    def Iniciar(self):
-        self.Sucursal()
+    def pagregistrar(self):
+        self.ui.stackedWidget.setCurrentIndex(4)
 
-    def Sucursal(self):
-        self.sucursal=CtrlSucursal(self.conexion)
-        self.sucursal.Iniciar()
+    def paginfo(self):
+        self.ui.stackedWidget.setCurrentIndex(5)
