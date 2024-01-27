@@ -230,9 +230,9 @@ gridline-color: rgb(0, 85, 127);</string>
     <widget class="QComboBox" name="comboBox">
      <property name="geometry">
       <rect>
-       <x>860</x>
+       <x>910</x>
        <y>40</y>
-       <width>231</width>
+       <width>181</width>
        <height>22</height>
       </rect>
      </property>
@@ -251,19 +251,6 @@ gridline-color: rgb(0, 85, 127);</string>
        <string>Guayaquil</string>
       </property>
      </item>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>780</x>
-       <y>40</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Sucursal:</string>
-     </property>
     </widget>
     <widget class="QLabel" name="label_11">
      <property name="geometry">
@@ -284,6 +271,19 @@ gridline-color: rgb(0, 85, 127);</string>
      </property>
      <property name="text">
       <string>Supermarket</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_54">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>40</y>
+       <width>47</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sucursal:</string>
      </property>
     </widget>
    </widget>
@@ -338,8 +338,8 @@ gridline-color: rgb(0, 85, 127);</string>
          <rect>
           <x>70</x>
           <y>100</y>
-          <width>371</width>
-          <height>181</height>
+          <width>381</width>
+          <height>201</height>
          </rect>
         </property>
         <property name="layoutDirection">
@@ -352,9 +352,9 @@ gridline-color: rgb(0, 85, 127);</string>
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>40</y>
+           <y>50</y>
            <width>46</width>
-           <height>16</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
@@ -365,20 +365,20 @@ gridline-color: rgb(0, 85, 127);</string>
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>80</y>
+           <y>90</y>
            <width>49</width>
-           <height>16</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
           <string>Dirección: </string>
          </property>
         </widget>
-        <widget class="QPushButton" name="btn_agregarSucur">
+        <widget class="QPushButton" name="btnAgrSuc">
          <property name="geometry">
           <rect>
-           <x>140</x>
-           <y>130</y>
+           <x>40</x>
+           <y>140</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -388,17 +388,17 @@ gridline-color: rgb(0, 85, 127);</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>imagenes/icons8-de-acuerdo-94.png</normaloff>imagenes/icons8-de-acuerdo-94.png</iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
          </property>
         </widget>
         <widget class="QLineEdit" name="txtNomSucur">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>130</x>
-           <y>40</y>
+           <x>110</x>
+           <y>50</y>
            <width>191</width>
            <height>20</height>
           </rect>
@@ -411,17 +411,17 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
          </property>
          <property name="placeholderText">
-          <string/>
+          <string>Ingrese el nombre de sucursal</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="txtDirSucur">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>130</x>
-           <y>80</y>
+           <x>110</x>
+           <y>90</y>
            <width>191</width>
            <height>20</height>
           </rect>
@@ -434,7 +434,83 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
          </property>
          <property name="placeholderText">
+          <string>Ingrese la dirección</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnEditSuc">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>140</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Modificar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnElimSuc">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>140</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnBuscSuc">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>50</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
           <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </widget>
@@ -513,8 +589,8 @@ padding-botom:7px;</string>
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>130</y>
+          <x>610</x>
+          <y>150</y>
           <width>431</width>
           <height>381</height>
          </rect>
@@ -533,8 +609,8 @@ padding-botom:7px;</string>
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>290</y>
-          <width>371</width>
+          <y>310</y>
+          <width>381</width>
           <height>271</height>
          </rect>
         </property>
@@ -546,10 +622,25 @@ padding-botom:7px;</string>
           <rect>
            <x>20</x>
            <y>30</y>
-           <width>331</width>
+           <width>341</width>
            <height>221</height>
           </rect>
          </property>
+         <column>
+          <property name="text">
+           <string>ID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Nombre</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Dirección</string>
+          </property>
+         </column>
         </widget>
        </widget>
       </widget>
@@ -585,7 +676,7 @@ padding-botom:7px;</string>
         <property name="title">
          <string>Detalles del cliente</string>
         </property>
-        <widget class="QPushButton" name="btn_buscarUser_2">
+        <widget class="QPushButton" name="btnBuscUserFact">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -604,7 +695,7 @@ padding-botom:7px;</string>
 
 QPushButton:hover{
 	border: 2px solid #173264;
-	
+
 }</string>
          </property>
          <property name="text">
@@ -898,26 +989,6 @@ padding-botom:7px;</string>
         <property name="title">
          <string>Producto</string>
         </property>
-        <widget class="QPushButton" name="btnbuscarProducto_2">
-         <property name="geometry">
-          <rect>
-           <x>260</x>
-           <y>40</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
-         </property>
-        </widget>
         <widget class="QLabel" name="label_50">
          <property name="geometry">
           <rect>
@@ -1011,6 +1082,42 @@ padding-botom:7px;</string>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnBuscProdFact">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>40</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </widget>
@@ -1360,26 +1467,6 @@ color: rgb(0, 85, 127);</string>
         <property name="title">
          <string>Datos proveedor</string>
         </property>
-        <widget class="QPushButton" name="pushButton">
-         <property name="geometry">
-          <rect>
-           <x>350</x>
-           <y>30</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
-         </property>
-        </widget>
         <widget class="QLineEdit" name="txt_idproductoabastecimiento">
          <property name="geometry">
           <rect>
@@ -1432,7 +1519,7 @@ color: rgb(0, 85, 127);</string>
 
 QPushButton:hover{
 	border: 2px solid #173264;
-	
+
 }</string>
          </property>
          <property name="text">
@@ -1441,6 +1528,42 @@ QPushButton:hover{
          <property name="icon">
           <iconset>
            <normaloff>imagenes/flecha-de-carga.png</normaloff>imagenes/flecha-de-carga.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnBuscProvAbast">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>360</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -1578,26 +1701,6 @@ QPushButton:hover{
            <width>171</width>
            <height>22</height>
           </rect>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btnbuscarProducto">
-         <property name="geometry">
-          <rect>
-           <x>320</x>
-           <y>30</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
          </property>
         </widget>
         <widget class="QWidget" name="layoutWidget_3">
@@ -1768,6 +1871,42 @@ padding-botom:7px;</string>
            <normaloff>imagenes/icons8-cerrar-ventana-94.png</normaloff>imagenes/icons8-cerrar-ventana-94.png</iconset>
          </property>
         </widget>
+        <widget class="QPushButton" name="btnBuscProdAbast">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -1787,44 +1926,6 @@ padding-botom:7px;</string>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QLabel" name="label_32">
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>90</y>
-          <width>271</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Tahoma</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Registrar Productos</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_44">
-        <property name="geometry">
-         <rect>
-          <x>620</x>
-          <y>70</y>
-          <width>291</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Tahoma</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Registrar Fabricante</string>
-        </property>
-       </widget>
        <widget class="QFrame" name="frame_13">
         <property name="geometry">
          <rect>
@@ -1900,44 +2001,24 @@ padding-botom:7px;</string>
        <widget class="QGroupBox" name="groupBox_13">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>140</y>
-          <width>441</width>
-          <height>261</height>
+          <x>510</x>
+          <y>90</y>
+          <width>461</width>
+          <height>481</height>
          </rect>
         </property>
         <property name="title">
-         <string>Datos producto</string>
+         <string>Datos del producto</string>
         </property>
-        <widget class="QComboBox" name="comboBox_3">
+        <widget class="QComboBox" name="combCatProd">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>130</x>
-           <y>110</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_6">
-         <property name="geometry">
-          <rect>
-           <x>40</x>
-           <y>150</y>
-           <width>91</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Presentacion:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="txt_presentacionproductoagregar">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>150</y>
-           <width>141</width>
+           <y>200</y>
+           <width>171</width>
            <height>22</height>
           </rect>
          </property>
@@ -1959,7 +2040,7 @@ padding-botom:7px;</string>
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>110</y>
+           <y>200</y>
            <width>71</width>
            <height>16</height>
           </rect>
@@ -1968,44 +2049,237 @@ padding-botom:7px;</string>
           <string>Categoria:</string>
          </property>
         </widget>
-        <widget class="QComboBox" name="comboBox_2">
+        <widget class="QComboBox" name="combMarcaProd">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>130</x>
            <y>70</y>
-           <width>141</width>
+           <width>221</width>
            <height>22</height>
           </rect>
          </property>
         </widget>
-        <widget class="QLabel" name="label_55">
+        <widget class="QLineEdit" name="txtDescripcion">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>30</y>
+           <width>221</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese la descripción del producto</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_123">
          <property name="geometry">
           <rect>
            <x>40</x>
            <y>30</y>
-           <width>71</width>
-           <height>16</height>
+           <width>81</width>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
           <string>Descripción:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="txt_nombreproductoagregar">
+        <widget class="QPushButton" name="btnBuscProduc">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>370</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_124">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>110</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Tamaño:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="txtTamanio">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>130</x>
-           <y>30</y>
-           <width>141</width>
-           <height>22</height>
+           <y>110</y>
+           <width>221</width>
+           <height>20</height>
           </rect>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese el tamaño</string>
+         </property>
         </widget>
-        <widget class="QPushButton" name="btn_modificaruser_2">
+        <widget class="QLabel" name="label_125">
          <property name="geometry">
           <rect>
-           <x>320</x>
-           <y>80</y>
+           <x>40</x>
+           <y>150</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Medida:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="txtMedida">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>150</y>
+           <width>221</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese la medida</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnAgrCatProd">
+         <property name="geometry">
+          <rect>
+           <x>310</x>
+           <y>200</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
+          <string>Agregar categoria</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
+        </widget>
+        <widget class="QTableWidget" name="tablaCatProduc">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>250</y>
+           <width>351</width>
+           <height>151</height>
+          </rect>
+         </property>
+         <column>
+          <property name="text">
+           <string>ID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Categoríá</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Categoría padre</string>
+          </property>
+         </column>
+        </widget>
+        <widget class="QPushButton" name="btnAgrProd">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>420</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Agregar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnEditProd">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>420</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2021,11 +2295,11 @@ padding-botom:7px;</string>
            <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
          </property>
         </widget>
-        <widget class="QPushButton" name="btn_eliminaruser_2">
+        <widget class="QPushButton" name="btnElimProd">
          <property name="geometry">
           <rect>
-           <x>320</x>
-           <y>120</y>
+           <x>270</x>
+           <y>420</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2041,17 +2315,27 @@ padding-botom:7px;</string>
            <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
          </property>
         </widget>
-        <widget class="QPushButton" name="btn_agregaruser_2">
+       </widget>
+       <widget class="QGroupBox" name="groupBox_14">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>90</y>
+          <width>371</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Datos del fabricante</string>
+        </property>
+        <widget class="QPushButton" name="btnAgrFabri">
          <property name="geometry">
           <rect>
-           <x>320</x>
-           <y>40</y>
+           <x>40</x>
+           <y>110</y>
            <width>93</width>
            <height>28</height>
           </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
          </property>
          <property name="text">
           <string>Agregar</string>
@@ -2061,115 +2345,274 @@ padding-botom:7px;</string>
            <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
          </property>
         </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_14">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>140</y>
-          <width>321</width>
-          <height>131</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Datos fabricante</string>
-        </property>
-        <widget class="QLineEdit" name="txt_direccionfabricanteagregar">
+        <widget class="QPushButton" name="btnElimFabri">
          <property name="geometry">
           <rect>
-           <x>140</x>
-           <y>50</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="txt_nombrefabricanteagregar">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>20</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_agregarfabricanteagregar">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>100</y>
+           <x>240</x>
+           <y>110</y>
            <width>93</width>
            <height>28</height>
           </rect>
          </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="text">
-          <string>Agregar</string>
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
          </property>
         </widget>
-        <widget class="QLabel" name="label_61">
+        <widget class="QPushButton" name="btnBuscFabri">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
-           <x>60</x>
-           <y>50</y>
-           <width>61</width>
-           <height>16</height>
+           <x>310</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnEditFabri">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>110</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Modificar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="txtNomFabri">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>30</y>
+           <width>191</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese el nombre del fabricante</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_32">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>70</y>
+           <width>49</width>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
-          <string>Direccion:</string>
+          <string>Dirección: </string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_44">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>30</y>
+           <width>46</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Nombre:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="txtDirFabri">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>70</y>
+           <width>191</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese la dirección</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_15">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>410</y>
+          <width>371</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Datos de la categoría</string>
+        </property>
+        <widget class="QPushButton" name="btnEditCat">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>110</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Modificar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnElimCat">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>110</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
          </property>
         </widget>
         <widget class="QLabel" name="label_60">
          <property name="geometry">
           <rect>
-           <x>60</x>
-           <y>20</y>
-           <width>61</width>
-           <height>16</height>
+           <x>40</x>
+           <y>70</y>
+           <width>101</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Categoría padre:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEditCat">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>30</y>
+           <width>191</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese el nombre de la categoría</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_61">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>30</y>
+           <width>46</width>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
           <string>Nombre:</string>
          </property>
         </widget>
-       </widget>
-       <widget class="QLabel" name="label_45">
-        <property name="geometry">
-         <rect>
-          <x>620</x>
-          <y>320</y>
-          <width>291</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Tahoma</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Registrar Categoria</string>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_15">
-        <property name="geometry">
-         <rect>
-          <x>570</x>
-          <y>400</y>
-          <width>351</width>
-          <height>151</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Datos categoría</string>
-        </property>
-        <widget class="QPushButton" name="btn_agregarcategoriaagregar">
+        <widget class="QComboBox" name="combCatPadre">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
-           <x>160</x>
-           <y>100</y>
+           <x>150</x>
+           <y>70</y>
+           <width>181</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnAgrCat">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>110</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2177,61 +2620,101 @@ padding-botom:7px;</string>
          <property name="text">
           <string>Agregar</string>
          </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
         </widget>
-        <widget class="QLabel" name="label_63">
+        <widget class="QPushButton" name="btnBuscMarca_2">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>50</y>
-           <width>91</width>
-           <height>16</height>
+           <x>310</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
          </property>
          <property name="text">
-          <string>Nombre:</string>
+          <string/>
          </property>
-        </widget>
-        <widget class="QLineEdit" name="txt_nombrecategoriaagregar">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>50</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_16">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>470</y>
-          <width>281</width>
-          <height>141</height>
+          <x>130</x>
+          <y>250</y>
+          <width>371</width>
+          <height>161</height>
          </rect>
         </property>
         <property name="title">
-         <string>Datos marca</string>
+         <string>Datos de la marca</string>
         </property>
-        <widget class="QLabel" name="label_65">
+        <widget class="QPushButton" name="btnBuscMarca">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
-           <x>10</x>
+           <x>310</x>
            <y>30</y>
-           <width>91</width>
-           <height>16</height>
+           <width>31</width>
+           <height>21</height>
           </rect>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+
+}</string>
+         </property>
          <property name="text">
-          <string>Nombre:</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
-        <widget class="QPushButton" name="btn_agregarmarcaagregar">
+        <widget class="QPushButton" name="btnAgrMarca">
          <property name="geometry">
           <rect>
-           <x>90</x>
-           <y>70</y>
+           <x>40</x>
+           <y>110</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2239,36 +2722,113 @@ padding-botom:7px;</string>
          <property name="text">
           <string>Agregar</string>
          </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
         </widget>
-        <widget class="QLineEdit" name="txt_mobremarcaagregar">
+        <widget class="QPushButton" name="btnElimMarca">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>240</x>
+           <y>110</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="txtNomMarca">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>110</x>
            <y>30</y>
-           <width>141</width>
+           <width>191</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgba(0,0,0,0);
+border:none;
+border-bottom:2px solid rgba(0, 0, 127,255);
+color: rgb(0, 0, 0);
+padding-botom:7px;</string>
+         </property>
+         <property name="placeholderText">
+          <string>Ingrese el nombre de la marca</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_45">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>30</y>
+           <width>46</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Nombre:</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnEditMarca">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>110</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Modificar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_46">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>70</y>
+           <width>71</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Fabricante: </string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="combFabric_Marca">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>70</y>
+           <width>191</width>
            <height>22</height>
           </rect>
          </property>
         </widget>
-       </widget>
-       <widget class="QLabel" name="label_46">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>410</y>
-          <width>291</width>
-          <height>61</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Tahoma</family>
-          <pointsize>18</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Registrar Marca</string>
-        </property>
        </widget>
       </widget>
      </widget>
@@ -2291,9 +2851,9 @@ padding-botom:7px;</string>
        <widget class="QGroupBox" name="groupBox">
         <property name="geometry">
          <rect>
-          <x>120</x>
+          <x>150</x>
           <y>90</y>
-          <width>681</width>
+          <width>801</width>
           <height>291</height>
          </rect>
         </property>
@@ -2305,11 +2865,11 @@ padding-botom:7px;</string>
         </property>
         <widget class="QPushButton" name="btn_buscarUser">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>640</x>
+           <x>580</x>
            <y>20</y>
            <width>31</width>
            <height>31</height>
@@ -2322,7 +2882,7 @@ padding-botom:7px;</string>
 
 QPushButton:hover{
 	border: 2px solid #173264;
-	
+
 }</string>
          </property>
          <property name="text">
@@ -2406,7 +2966,7 @@ QPushButton:hover{
           <item>
            <widget class="QLineEdit" name="txtIdentificacion">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2416,14 +2976,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese la identificación</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtNombres">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2433,14 +2993,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese los nombres</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtApellidos">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2450,14 +3010,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese los apellidos</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtDireccion">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2467,14 +3027,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese la dirección</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtTelefono">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2484,14 +3044,14 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese el teléfono</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLineEdit" name="txtEmail">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color:rgba(0,0,0,0);
@@ -2501,7 +3061,7 @@ color: rgb(0, 0, 0);
 padding-botom:7px;</string>
             </property>
             <property name="placeholderText">
-             <string/>
+             <string>Ingrese su email</string>
             </property>
            </widget>
           </item>
@@ -2546,85 +3106,89 @@ padding-botom:7px;</string>
           <string>NO.</string>
          </property>
         </widget>
-       </widget>
-       <widget class="QPushButton" name="btn_cancelaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>350</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Cancelar</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_modificaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>140</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Modificar</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_guardaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>310</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Guardar</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_eliminaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>180</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Eliminar</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
-        </property>
+        <widget class="QPushButton" name="btn_modificaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>100</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Modificar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/boligrafo.png</normaloff>imagenes/boligrafo.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_agregaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>60</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Agregar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_eliminaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>140</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/borrar.png</normaloff>imagenes/borrar.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_cancelaruser">
+         <property name="geometry">
+          <rect>
+           <x>660</x>
+           <y>220</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Cancelar</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_2">
         <property name="geometry">
          <rect>
-          <x>120</x>
+          <x>150</x>
           <y>390</y>
-          <width>871</width>
+          <width>801</width>
           <height>211</height>
          </rect>
         </property>
@@ -2636,31 +3200,11 @@ padding-botom:7px;</string>
           <rect>
            <x>30</x>
            <y>30</y>
-           <width>811</width>
+           <width>741</width>
            <height>161</height>
           </rect>
          </property>
         </widget>
-       </widget>
-       <widget class="QPushButton" name="btn_agregaruser">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>100</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Agregar</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
-        </property>
        </widget>
        <widget class="QFrame" name="frame_5">
         <property name="geometry">

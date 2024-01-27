@@ -13,12 +13,12 @@ class CtrlCliente:
 
     def cargarDatosCliente(self,id):
         self.id=id
-        datos=self.insertar.SearchClient(id)
+        datos=self.insertar.SearchIdTable('Cliente',id)
         return datos
 
     def eliminarCliente(self,id):
         self.id=id
-        self.insertar.deleteClient(id)
+        self.insertar.Delete('Cliente', id)
 
     def modificarCliente(self,datos):
         self.id,self.nombre,self.apellido,self.direccion,self.email,self.telefono,self.socio = datos
