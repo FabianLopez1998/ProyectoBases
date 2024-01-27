@@ -332,8 +332,6 @@ class ControladorPrincipal(QMainWindow):
         self.ui.txtEmail.setText("")
         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
 
-
-
     #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
     #-------------------------------------- PAGINA7: DETALLES DE VENTAS  -------------------------------------
     #-------------------------------------- PAGINA8: DETALLE DE ABASTECIMIENTOS -------------------------------------
@@ -351,10 +349,11 @@ class ControladorPrincipal(QMainWindow):
         eliminar.setEnabled(estado)
 
     def cargarDatosTabla(self, lista, columnas, tabla):
-        #self.limpiaTabla(tabla)
+
+        self.limpiaTabla(tabla)
         tabla.setColumnCount(len(columnas))
         tabla.setHorizontalHeaderLabels(columnas)
-
+        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         row = 0
         for item in lista:
             tabla.insertRow(row)
@@ -366,7 +365,7 @@ class ControladorPrincipal(QMainWindow):
             row += 1
 
     def limpiaTabla(self, tabla):
-        tabla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        #tabla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         tabla.horizontalHeader().setStretchLastSection(True)
         tabla.clearContents()
         tabla.setRowCount(0)
