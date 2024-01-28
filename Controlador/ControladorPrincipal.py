@@ -1,10 +1,14 @@
 import sys
-
+from datetime import datetime
 
 from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QTableWidget, QMessageBox
 from PyQt6.uic.properties import QtWidgets
 
-
+from Controlador.CtrlCategoria import CtrlCategoria
+from Controlador.CtrlCategoriaProducto import CtrlCategoriaProducto
+from Controlador.CtrlFabricante import CtrlFabricante
+from Controlador.CtrlMarca import CtrlMarca
+from Controlador.CtrlProducto import CtrlProducto
 from Vista.ventana import Ui_MainWindow
 from conection import DataBaseConection
 from Controlador.CtrlSucursal import CtrlSucursal
@@ -225,7 +229,11 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btnBuscSuc.clicked.connect(self.buscarSucursal)
 
         #-------------------------------------- PAGINA2: FACTURACION  -------------------------------------
+        self.ui.btnBuscUserFact.clicked.connect(self.detallesClliente)
+        self.ui.txtIdentificacion_3.setEnabled(True)
+        self.ui.btnBuscProdFact.clicked.connect(self.buscarProductoFactura)
         #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
+
         #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
         self.ui.btnBuscFabri.clicked.connect(self.buscarFabricante)
@@ -240,7 +248,7 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btnElimMarca.clicked.connect(self.eliminarMarca)
         self.ui.btn_cancelarmarc.clicked.connect(self.cancelarMarca)
 
-        #self.ui.btnBuscCat.clicked.connect(self.buscarCategoria)
+        self.ui.btnBuscCat.clicked.connect(self.buscarCategoria)
         self.ui.btnAgrCat.clicked.connect(self.agregarCategoria)
         self.ui.btnEditCat.clicked.connect(self.editarCategoria)
         self.ui.btnElimCat.clicked.connect(self.eliminarCategoria)
@@ -251,6 +259,8 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btnEditProd.clicked.connect(self.editarProducto)
         self.ui.btnElimProd.clicked.connect(self.eliminarProducto)
         self.ui.btn_cancelarpro.clicked.connect(self.cancelarProducto)
+
+        self.ui.btnAgrCatProd.clicked.connect(self.agregarProductoCategoria)
 
         #-------------------------------------- PAGINA5: REGISTRO DE USUARIOS  -------------------------------------
 
@@ -277,13 +287,19 @@ class ControladorPrincipal(QMainWindow):
 # >>>>>>> origin/Alejandro
     def pagfactura(self):
         self.ui.stackedWidget.setCurrentIndex(1)
+        self.cargarFechaActual()
     def pagabastecer(self):
         self.ui.stackedWidget.setCurrentIndex(2)
     def pagagregarproducto(self):
+        self.cargarComboFabricante()
+        self.cargarComboCategoria()
+        self.cargarComboMarca()
+        self.cargarComboCategoriaProducto()
+        self.cargarComboProductos()
         self.ui.stackedWidget.setCurrentIndex(3)
         self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri, self.ui.btnElimFabri, False)
         self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca, self.ui.btnEditMarca, self.ui.btnElimMarca, False)
-        self.manejoBotones(self.ui.btnBuscMarca_2, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat, False)
+        self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat, False)
         self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd, self.ui.btnEditProd, self.ui.btnElimProd, False)
 
     def pagregistrar(self):
@@ -312,8 +328,6 @@ class ControladorPrincipal(QMainWindow):
         self.ui.txtDirSucur.setText(datosSucursal[2])
         self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc,
                            self.ui.btnEditSuc, self.ui.btnElimSuc, True)
-        pass
-
 
     def agregarSucursal(self):
         nombre=self.ui.txtNomSucur.text()
@@ -354,8 +368,6 @@ class ControladorPrincipal(QMainWindow):
         self.agregarTablaSucursal()
         self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc,
                            self.ui.btnEditSuc, self.ui.btnElimSuc, False)
-        pass
-
 
     def cancelarSucursal(self):
         self.ui.txtNomSucur.setText("")
@@ -364,35 +376,78 @@ class ControladorPrincipal(QMainWindow):
 
 
     #-------------------------------------- PAGINA2: FACTURACION  -------------------------------------
+    def cargarFechaActual(self):
+        fecha_actual = datetime.now().date()
+        self.ui.lblFecha.setText(str(fecha_actual))
+
+    def detallesClliente(self):
+        id=self.ui.txtIdentificacion_3.text()
+        self.cliente=CtrlCliente(self.conexion)
+        datosCliente=self.cliente.cargarDatosCliente(id)
+        self.ui.lblNombres.setText(datosCliente[1])
+        self.ui.lblApellidos.setText(datosCliente[2])
+        self.ui.lblDireccion.setText(datosCliente[3])
+        self.ui.lblemail.setText(datosCliente[4])
+        self.ui.lblTelefono.setText(datosCliente[5])
+        if datosCliente[6]:
+            self.ui.lblDescuento.setText('Si')
+        elif datosCliente[6]==False:
+            self.ui.lblDescuento.setText('No')
+
+    def buscarProductoFactura(self):
+        producto=CtrlProducto(self.conexion)
+        nombre=producto.cargarNombreProducto(self.ui.txtbuscarProducto2.text())
+        print('descr',nombre)
+        self.ui.lblApellidos_2.setText(nombre[0])
     #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
 
     ###FABRICANTE
     def buscarFabricante(self):
-        if True:
-            self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri, self.ui.btnElimFabri, True)
-            pass
-        else:
-            QMessageBox.warning(self, "ERROR", "No existe el Fabricante!")
-
+        nombre=self.ui.txtNomFabri.text()
+        fabricante=CtrlFabricante(self.conexion)
+        datosFabricante=fabricante.cargarDatosFabricante(nombre)
+        self.ui.txtDirFabri.setText(datosFabricante[2])
+        self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri,
+                           self.ui.btnElimFabri, True)
     def agregarFabricante(self):
-        if True:
-            QMessageBox.information(self, "Registro", "Fabricante agregado con éxito!")
+        nombre=self.ui.txtNomFabri.text()
+        direccion=self.ui.txtDirFabri.text()
+        if nombre!='' and direccion != '':
+            fabricanteDatos=(nombre,direccion)
+            self.fabricante=CtrlFabricante(self.conexion)
+            self.fabricante.guardarFabricante(fabricanteDatos)
+            QMessageBox.information(self, "Registro", "Fabricante agregada con éxito!")
+            self.cancelarFabricante()
             pass
         else:
             QMessageBox.information(self, "Fabricante", "!")
 
     def editarFabricante(self):
-        if True:
-            self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri, self.ui.btnElimFabri,False)
+        nombre=self.ui.txtNomFabri.text()
+        direccion=self.ui.txtDirFabri.text()
+        if nombre!= '' and direccion != '':
+            datos=(nombre,direccion)
+            self.fabricante=CtrlFabricante(self.conexion)
+            self.fabricante.modificarFabricante(datos)
+            QMessageBox.information(self, "Registro", "Fabricante modificada con éxito!")
+            self.cancelarFabricante()
+            self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri,
+                               self.ui.btnEditFabri, self.ui.btnElimFabri,False)
             pass
         else:
             QMessageBox.information(self, "Fabricante", "!")
 
     def eliminarFabricante(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri, self.ui.btnElimFabri, False)
+            nombre=self.ui.txtNomFabri.text()
+            self.fabricante=CtrlFabricante(self.conexion)
+            self.fabricante.eliminarFabricante(nombre)
+            QMessageBox.information(self, "Registro", "Fabricante eliminada con éxito!")
+            self.cancelarFabricante()
+            self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri,
+                               self.ui.btnEditFabri, self.ui.btnElimFabri, False)
             pass
         else:
             QMessageBox.information(self, "Fabricante", "!")
@@ -406,82 +461,138 @@ class ControladorPrincipal(QMainWindow):
     ##MARCA
 
     def buscarMarca(self):
-        if True:
-            self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca, self.ui.btnEditMarca, self.ui.btnElimMarca, True)
-            pass
-        else:
-            QMessageBox.warning(self, "ERROR", "No existe la Marca!")
+        nombre=self.ui.txtNomMarca.text()
+        marca=CtrlMarca(self.conexion)
+        datosMarca=marca.cargarDatosMarca(nombre)
+        self.ui.combFabric_Marca.setCurrentText(datosMarca[1])
+        self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
+                           self.ui.btnEditMarca, self.ui.btnElimMarca, True)
 
     def agregarMarca(self):
-        if True:
-            QMessageBox.information(self, "Registro", "Marca agregada con éxito!")
-            pass
-        else:
-            QMessageBox.information(self, "Marca", "!")
+        fabricante=CtrlFabricante(self.conexion)
+        marca=CtrlMarca(self.conexion)
+        nombre=self.ui.txtNomMarca.text()
+        idFabricante=fabricante.cargarIdFabricante(self.ui.combFabric_Marca.currentText())
+        marcaDatos=(nombre,idFabricante)
+        marca.guardarMarca(marcaDatos)
+        self.cancelarMarca()
+        QMessageBox.information(self, "Registro", "Marca agregada con éxito!")
+        pass
 
     def editarMarca(self):
-        if True:
-            self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca, self.ui.btnEditMarca, self.ui.btnElimMarca,False)
-            pass
-        else:
-            QMessageBox.information(self, "Marca", "!")
+        nombreProveedor=self.ui.combFabric_Marca.currentText()
+        nuevoNombreMarca=self.ui.txtNomMarca.text()
+        marca=CtrlMarca(self.conexion)
+        datos=(nombreProveedor,nuevoNombreMarca)
+        marca.modificarMarca(datos)
+        QMessageBox.information(self, "Registro", "Marca modificada con éxito!")
+        self.cancelarMarca()
+        self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
+                           self.ui.btnEditMarca, self.ui.btnElimMarca,False)
 
     def eliminarMarca(self):
-        if True:
-            self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca, self.ui.btnEditMarca, self.ui.btnElimMarca,False)
-            pass
-        else:
-            QMessageBox.information(self, "Marca", "!")
+        nombre=self.ui.txtNomMarca.text()
+        marca=CtrlMarca(self.conexion)
+        marca.eliminarMarca(nombre)
+        QMessageBox.information(self, "Registro", "Marca eliminada con éxito!")
+        self.cancelarMarca()
+        self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
+                           self.ui.btnEditMarca, self.ui.btnElimMarca,False)
+
 
     def cancelarMarca(self):
         self.ui.txtNomMarca.setText("")
-        self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca, self.ui.btnEditMarca, self.ui.btnElimMarca,False)
+        self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
+                           self.ui.btnEditMarca, self.ui.btnElimMarca,False)
 
     ##CATEGORIA
 
     def buscarCategoria(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscMarca_2, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat, True)
-            pass
+            nombre=self.ui.lineEditCat.text()
+            categoria=CtrlCategoria(self.conexion)
+            datosCategoria=categoria.cargarDatosCategoria(nombre)
+            self.ui.combCatPadre.setCurrentText(datosCategoria[0])
+            self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat,
+                               self.ui.btnEditCat, self.ui.btnElimCat, True)
         else:
             QMessageBox.warning(self, "ERROR", "No existe la Categoría!")
 
     def agregarCategoria(self):
         if True:
+            categoria=CtrlCategoria(self.conexion)
+            nombre=self.ui.lineEditCat.text()
+            idCategoria=categoria.cargarIdCategoria(self.ui.combCatPadre.currentText())
+            print('holaaaa',nombre,idCategoria)
+            categoriaDatos=(nombre,idCategoria)
+            categoria.guardarCategoria(categoriaDatos)
+            self.cancelarCategoria()
             QMessageBox.information(self, "Registro", "Categoría agregada con éxito!")
-            pass
         else:
             QMessageBox.information(self, "Categoría", "!")
 
     def editarCategoria(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscMarca_2, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat,False)
+            nombreCategoriaCmb=self.ui.combCatPadre.currentText()
+            nuevoNombreCategoria=self.ui.lineEditCat.text()
+            categoria=CtrlCategoria(self.conexion)
+            datos=(nombreCategoriaCmb,nuevoNombreCategoria)
+            categoria.modificarCategoria(datos)
+            QMessageBox.information(self, "Registro", "Categoria modificada con éxito!")
+            self.cancelarCategoria()
+            self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat,
+                               self.ui.btnEditCat, self.ui.btnElimCat,False)
             pass
         else:
             QMessageBox.information(self, "Categoría", "!")
 
     def eliminarCategoria(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscMarca_2, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat,False)
-            pass
+            nombre=self.ui.lineEditCat.text()
+            categoria=CtrlCategoria(self.conexion)
+            categoria.eliminarCategoria(nombre)
+            QMessageBox.information(self, "Registro", "Marca eliminada con éxito!")
+            self.cancelarCategoria()
+            self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat,
+                               self.ui.btnEditCat, self.ui.btnElimCat,False)
         else:
             QMessageBox.information(self, "Categoría", "!")
 
     def cancelarCategoria(self):
         self.ui.lineEditCat.setText("")
-        self.manejoBotones(self.ui.btnBuscMarca_2, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat,False)
+        self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat,False)
 
     ##PRODUCTO
 
     def buscarProducto(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd, self.ui.btnEditProd, self.ui.btnElimProd, True)
-            pass
+            nombre=self.ui.txtDescripcion.text()
+            producto=CtrlProducto(self.conexion)
+            datosProducto=producto.cargarDatosProducto(nombre)
+            print('datososs: ',datosProducto)
+            self.ui.txtTamanio.setText(datosProducto[0])
+            self.ui.txtMedida.setText(datosProducto[1])
+            self.ui.combMarcaProd.setCurrentText(datosProducto[2])
+            self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd,
+                               self.ui.btnEditProd, self.ui.btnElimProd, True)
         else:
             QMessageBox.warning(self, "ERROR", "No existe el Producto!")
 
     def agregarProducto(self):
         if True:
+            producto=CtrlProducto(self.conexion)
+            marca=CtrlMarca(self.conexion)
+            categoria=CtrlCategoria(self.conexion)
+
+            nombre=self.ui.txtDescripcion.text()
+            marcaId=marca.cargarIdMarca(self.ui.combMarcaProd.currentText())
+            tamanio=self.ui.txtTamanio.text()
+            medida=self.ui.txtMedida.text()
+            categoriaId=categoria.cargarIdCategoria(self.ui.combCatProd.currentText())#otra tabla
+            datos=(nombre,tamanio,medida,marcaId)
+            producto.guardarProductp(datos)
+            self.cancelarProducto()
+
             QMessageBox.information(self, "Registro", "Producto agregado con éxito!")
             pass
         else:
@@ -496,10 +607,27 @@ class ControladorPrincipal(QMainWindow):
 
     def eliminarProducto(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd, self.ui.btnEditProd, self.ui.btnElimProd,False)
+            nombre=self.ui.txtDescripcion.text()
+            producto=CtrlProducto(self.conexion)
+            producto.eliminarProducto(nombre)
+            QMessageBox.information(self, "Registro", "Producto eliminado con éxito!")
+            self.cancelarProducto()
+            self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd,
+                               self.ui.btnEditProd, self.ui.btnElimProd,False)
             pass
         else:
             QMessageBox.information(self, "Producto", "!")
+
+    def agregarProductoCategoria(self):
+        producto=CtrlProducto(self.conexion)
+        categoria=CtrlCategoria(self.conexion)
+        categoria_producto=CtrlCategoriaProducto(self.conexion)
+
+        productoId=producto.cargarIdProducto(self.ui.combCatProd_2.currentText())
+        categoriaId=categoria.cargarIdCategoria(self.ui.combCatProd.currentText())
+        datos=(productoId,categoriaId)
+        categoria_producto.guardarCategoriaProducto(datos)
+        QMessageBox.information(self, "Registro", "Producto Categoria Agregado con éxito!")
 
     def cancelarProducto(self):
         self.ui.txtDescripcion.setText("")
@@ -607,7 +735,32 @@ class ControladorPrincipal(QMainWindow):
 
 
     #--------------------------------------- CODIGOS EXTRA PARA TODAS LAS VENTANAS --------------------------------------
+    def cargarComboProductos(self):
+        self.ui.combCatProd_2.clear()
+        producto=CtrlProducto(self.conexion)
+        datos=producto.cargarTablaProducto()
+        self.ui.combCatProd_2.addItems([item[1] for item in datos])
+    def cargarComboMarca(self):
+        self.ui.combMarcaProd.clear()
+        marca=CtrlMarca(self.conexion)
+        datos=marca.cargarTablaMarca()
+        self.ui.combMarcaProd.addItems([item[1] for item in datos])
+    def cargarComboCategoria(self):
+        self.ui.combCatPadre.clear()
+        categoria=CtrlCategoria(self.conexion)
+        datos=categoria.cargarTablaCategoria()
+        self.ui.combCatPadre.addItems([item[1] for item in datos])
 
+    def cargarComboCategoriaProducto(self):
+        self.ui.combCatProd.clear()
+        categoria=CtrlCategoria(self.conexion)
+        datos=categoria.cargarTablaCategoria()
+        self.ui.combCatProd.addItems([item[1] for item in datos])
+    def cargarComboFabricante(self):
+        self.ui.combFabric_Marca.clear()
+        fabricante=CtrlFabricante(self.conexion)
+        datos=fabricante.cargarTablaFabricante()
+        self.ui.combFabric_Marca.addItems([item[1] for item in datos])
     def cargarComboSucursal(self):
         self.ui.comboBox.clear()
         sucursal=CtrlSucursal(self.conexion)
