@@ -4,7 +4,6 @@ class CtrlCliente:
     def __init__(self,conexion):
         self.conexion=conexion
         self.insertar=DataBaseSql(self.conexion)
-        #self.id,self.nombre,self.apellido,self.direccion,self.email,self.telefono,self.socio = datos
 
     def guardarCliente(self,datos):
         self.id,self.nombre,self.apellido,self.direccion,self.email,self.telefono,self.socio = datos
