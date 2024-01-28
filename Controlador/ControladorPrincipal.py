@@ -1,10 +1,13 @@
 import sys
 from datetime import datetime
 
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QStandardItemModel
 
 from Controlador.CtrlCategoria import CtrlCategoria
 from Controlador.CtrlCategoriaProducto import CtrlCategoriaProducto
 from Controlador.CtrlFabricante import CtrlFabricante
+from Controlador.CtrlFactura import CtrlFactura
 from Controlador.CtrlMarca import CtrlMarca
 from Controlador.CtrlProducto import CtrlProducto
 from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QTableWidget, QMessageBox, QHeaderView
@@ -54,6 +57,9 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btnBuscUserFact.clicked.connect(self.detallesClliente)
         self.ui.txtIdentificacion_3.setEnabled(True)
         self.ui.btnBuscProdFact.clicked.connect(self.buscarProductoFactura)
+        self.ui.btn_agregarfact.clicked.connect(self.agregarTablaDetalleFactura)
+        self.agregarCabeceraTablaDetalleFactura()
+
         #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
 
         #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
@@ -112,6 +118,7 @@ class ControladorPrincipal(QMainWindow):
     def pagfactura(self):
         self.ui.stackedWidget.setCurrentIndex(1)
         self.cargarFechaActual()
+        self.cargarIdFactura()
     def pagabastecer(self):
         self.ui.stackedWidget.setCurrentIndex(2)
     def pagagregarproducto(self):
@@ -148,6 +155,7 @@ class ControladorPrincipal(QMainWindow):
         self.cargarDatosTabla(datosSucursal,['id','Nombre','Direccion'],self.ui.tableWidget)
         self.cargarComboSucursal()
     def buscarSucursal(self):
+        self.variableGlobal=self.ui.txtNomSucur.text()
         nombre=self.ui.txtNomSucur.text()
         self.sucursal=CtrlSucursal(self.conexion)
         datosSucursal=self.sucursal.cargarDatosSucursal(nombre)
@@ -177,8 +185,9 @@ class ControladorPrincipal(QMainWindow):
         nombre=self.ui.txtNomSucur.text()
         direccion=self.ui.txtDirSucur.text()
         if nombre!= '' and direccion != '':
-            datos=(nombre,direccion)
             self.sucursal=CtrlSucursal(self.conexion)
+            idSucursal=self.sucursal.cargarIdSucursal(self.variableGlobal)
+            datos=(idSucursal,nombre,direccion)
             self.sucursal.modificarSucursal(datos)
             QMessageBox.information(self, "Registro", "Sucursal modificada con éxito!")
             self.cancelarSucursal()
@@ -205,6 +214,34 @@ class ControladorPrincipal(QMainWindow):
 
 
     #-------------------------------------- PAGINA2: FACTURACION  -------------------------------------
+    def agregarTablaDetalleFactura(self):
+        datosTabla=[]
+        codigo=self.ui.txtbuscarProducto2.text()
+        nombre=self.ui.lblApellidos_2.text()
+        cantidad=self.ui.box_cantidadfact.value()
+        precioU=self.ui.doubleSpinBoxAbast_3.value()
+        precioT=str(float(cantidad)*float(precioU))
+        nuevaFila=(codigo,nombre,str(cantidad),str(precioU),precioT)
+        datosTabla.append(nuevaFila)
+        #self.ui.tabla_productosfac.setRowCount(0)
+        for fila in datosTabla:
+            fila_actual = self.ui.tabla_productosfac.rowCount()
+            self.ui.tabla_productosfac.insertRow(fila_actual)
+            # Agregar elementos a la fila
+            for col, valor in enumerate(fila):
+                item = QTableWidgetItem(valor)
+                self.ui.tabla_productosfac.setItem(fila_actual, col, item)
+    def agregarCabeceraTablaDetalleFactura(self):
+        self.ui.tabla_productosfac.setRowCount(0)
+        self.ui.tabla_productosfac.setColumnCount(5)
+        self.ui.tabla_productosfac.setHorizontalHeaderLabels(['Codigo','Nombre','Cantidad','Precio U','Precio T'])
+
+    def cargarIdFactura(self):
+        self.ui.lblNumeroFactura_2.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        factura=CtrlFactura(self.conexion)
+        idFactura=factura.cargarIdUltimaFactura()
+        self.ui.lblNumeroFactura_2.setText(str(int(idFactura+1)))
+
     def cargarFechaActual(self):
         fecha_actual = datetime.now().date()
         self.ui.lblFecha.setText(str(fecha_actual))
@@ -226,7 +263,6 @@ class ControladorPrincipal(QMainWindow):
     def buscarProductoFactura(self):
         producto=CtrlProducto(self.conexion)
         nombre=producto.cargarNombreProducto(self.ui.txtbuscarProducto2.text())
-        print('descr',nombre)
         self.ui.lblApellidos_2.setText(nombre[0])
     #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
@@ -258,9 +294,9 @@ class ControladorPrincipal(QMainWindow):
         nombre=self.ui.txtNomFabri.text()
         direccion=self.ui.txtDirFabri.text()
         if nombre!= '' and direccion != '':
-            #id=self.fabricante.cargarIdFabricante(self.variableGlobal)
-            datos=(nombre,direccion)
             self.fabricante=CtrlFabricante(self.conexion)
+            idFabricante=self.fabricante.cargarIdFabricante(self.variableGlobal)
+            datos=(idFabricante,nombre,direccion)
             self.fabricante.modificarFabricante(datos)
             QMessageBox.information(self, "Registro", "Fabricante modificada con éxito!")
             self.cancelarFabricante()
@@ -292,6 +328,7 @@ class ControladorPrincipal(QMainWindow):
     ##MARCA
 
     def buscarMarca(self):
+        self.variableGlobal=self.ui.txtNomMarca.text()
         nombre=self.ui.txtNomMarca.text()
         marca=CtrlMarca(self.conexion)
         datosMarca=marca.cargarDatosMarca(nombre)
@@ -311,10 +348,10 @@ class ControladorPrincipal(QMainWindow):
         pass
 
     def editarMarca(self):
-        nombreProveedor=self.ui.combFabric_Marca.currentText()
-        nuevoNombreMarca=self.ui.txtNomMarca.text()
         marca=CtrlMarca(self.conexion)
-        datos=(nombreProveedor,nuevoNombreMarca)
+        nuevoNombreMarca=self.ui.txtNomMarca.text()
+        idMarca=marca.cargarIdMarca(self.variableGlobal)
+        datos=(idMarca,nuevoNombreMarca)
         marca.modificarMarca(datos)
         QMessageBox.information(self, "Registro", "Marca modificada con éxito!")
         self.cancelarMarca()
@@ -340,6 +377,7 @@ class ControladorPrincipal(QMainWindow):
 
     def buscarCategoria(self):
         if True:
+            self.variableGlobal=self.ui.lineEditCat.text()
             nombre=self.ui.lineEditCat.text()
             categoria=CtrlCategoria(self.conexion)
             datosCategoria=categoria.cargarDatosCategoria(nombre)
@@ -365,10 +403,12 @@ class ControladorPrincipal(QMainWindow):
 
     def editarCategoria(self):
         if True:
-            nombreCategoriaCmb=self.ui.combCatPadre.currentText()
-            nuevoNombreCategoria=self.ui.lineEditCat.text()
             categoria=CtrlCategoria(self.conexion)
-            datos=(nombreCategoriaCmb,nuevoNombreCategoria)
+
+            idCategoriaPadre=categoria.cargarIdCategoria(self.ui.combCatPadre.currentText())
+            nuevoNombreCategoria=self.ui.lineEditCat.text()
+            idCategoria=categoria.cargarIdCategoria(self.variableGlobal)
+            datos=(idCategoria,idCategoriaPadre,nuevoNombreCategoria)
             categoria.modificarCategoria(datos)
             QMessageBox.information(self, "Registro", "Categoria modificada con éxito!")
             self.cancelarCategoria()
@@ -398,6 +438,7 @@ class ControladorPrincipal(QMainWindow):
 
     def buscarProducto(self):
         if True:
+            self.variableGlobal=self.ui.txtDescripcion.text()
             nombre=self.ui.txtDescripcion.text()
             producto=CtrlProducto(self.conexion)
             datosProducto=producto.cargarDatosProducto(nombre)
@@ -432,8 +473,18 @@ class ControladorPrincipal(QMainWindow):
 
     def editarProducto(self):
         if True:
-            self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd, self.ui.btnEditProd, self.ui.btnElimProd,False)
-            pass
+            producto=CtrlProducto(self.conexion)
+            marca=CtrlMarca(self.conexion)
+            idProducto=producto.cargarIdProducto(self.variableGlobal)
+            nombre=self.ui.txtDescripcion.text()
+            idMarca=marca.cargarIdMarca(self.ui.combMarcaProd.currentText())
+            tamanio=self.ui.txtTamanio.text()
+            medida=self.ui.txtMedida.text()
+            datos=(idProducto,nombre,tamanio,medida,idMarca)
+            producto.modificarProducto(datos)
+            self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd,
+                               self.ui.btnEditProd, self.ui.btnElimProd,False)
+            QMessageBox.information(self, "Registro", "Producto modificado con éxito!")
         else:
             QMessageBox.information(self, "Producto", "!")
 

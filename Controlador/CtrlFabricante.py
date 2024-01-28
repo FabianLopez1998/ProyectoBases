@@ -15,8 +15,8 @@ class CtrlFabricante():
         return datos
 
     def modificarFabricante(self,datos):
-        self.nombre,self.direccion = datos
-        self.insertar.Edit('Fabricante',(self.nombre, self.direccion))
+        self.idFabricante,self.nombre,self.direccion = datos
+        self.insertar.Edit('Fabricante',(self.idFabricante,self.nombre,self.direccion))
 
     def eliminarFabricante(self,nombre):
         self.nombre=nombre

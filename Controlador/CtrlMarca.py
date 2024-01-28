@@ -15,8 +15,8 @@ class CtrlMarca():
         return datos
 
     def modificarMarca(self,datos):
-        self.nombreProveedor,self.nuevoNombreMarca = datos
-        self.insertar.Edit('Marca',(self.nombreProveedor,self.nuevoNombreMarca))
+        self.idMarca,self.nuevoNombreMarca = datos
+        self.insertar.Edit('Marca',(self.idMarca,self.nuevoNombreMarca))
 
     def eliminarMarca(self,nombre):
         self.nombre=nombre

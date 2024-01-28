@@ -196,13 +196,15 @@ class DataBaseSql():
         puntero=self.conexion.cursor()
 
         if tabla=='Sucursal':
-            sql='update Sucursal set nombre=%s, direccion=%s where nombre= %s'
-            valores=(data[0],data[1],data[0])
+            sql='update Sucursal set nombre=%s, direccion=%s where id= %s'
+            valores=(data[1],data[2],data[0])
             puntero.execute(sql,valores)
             print('Datos modificados correctamente')
         elif tabla=='Categoria':
+            sql='update Categoria set nombre = %s, categoria_padre = %s where id = %s'
+            valores=(data[2],data[1],data[0])
+            puntero.execute(sql,valores)
             print('Datos modificados correctamente')
-
         elif tabla=='Cliente':
             sql=('update cliente set nombre=%s, apellido=%s, direccion=%s,'
                  'email=%s, telefono=%s, es_socio=%s where id= %s')
@@ -210,8 +212,8 @@ class DataBaseSql():
             puntero.execute(sql,valores)
             print('Datos modificados correctamente')
         elif tabla=='Fabricante':
-            sql='update Fabricante set nombre=%s, direccion=%s where nombre= %s'
-            valores=(data[0],data[1],data[0])
+            sql='update Fabricante set nombre=%s, direccion=%s where id= %s'
+            valores=(data[1],data[2],data[0])
             puntero.execute(sql,valores)
             print('Datos modificados correctamente')
         elif tabla=='Factura':
@@ -221,19 +223,15 @@ class DataBaseSql():
         elif tabla=='Inventario':
             print('insert')
         elif tabla=='Marca':
-            sql=('SELECT marca.nombre '
-                 ' FROM marca '
-                 ' JOIN fabricante ON marca.id_fabricante = fabricante.id '
-                 ' WHERE fabricante.nombre = %s')
-            puntero.execute(sql,(data[0],))
-
-            nombreActualMarca=puntero.fetchone()
-            sql2='update Marca set nombre=%s where nombre= %s'
-            valores=(data[1],nombreActualMarca)
-            puntero.execute(sql2,valores)
+            sql='update Marca set nombre=%s where id= %s'
+            valores=(data[1],data[0])
+            puntero.execute(sql,valores)
             print('Datos modificados correctamente')
         elif tabla=='Producto':
-            print('insert')
+            sql='update Producto set nombre=%s, tamanio=%s, medida=%s, id_marca=%s where id= %s'
+            valores=(data[1],data[2],data[3],data[4],data[0])
+            puntero.execute(sql,valores)
+            print('Datos modificados correctamente')
         elif tabla=='Producto_Categoria':
             print('insert')
         else:print('ocurrio un error, Tabla no encontrada')
@@ -241,7 +239,10 @@ class DataBaseSql():
     def searchIdAllTables(self,tabla,id):
         puntero=self.conexion.cursor()
         if tabla=='Sucursal':
-            None
+            sql='select id from Sucursal where nombre=%s'
+            puntero.execute(sql,(id,))
+            idSucursal=puntero.fetchone()
+            return idSucursal
         elif tabla=='Categoria':
             sql='select id from Categoria where nombre=%s'
             puntero.execute(sql,(id,))
@@ -282,3 +283,14 @@ class DataBaseSql():
         puntero.execute(sql,(codigo,))
         nombre=puntero.fetchone()
         return nombre
+
+    def getLastIdFact(self):
+        puntero=self.conexion.cursor()
+        sql=' select max(id) from Factura'
+        puntero.execute(sql)
+        ultimoId=puntero.fetchone()[0]
+        #print('base ',ultimoId[0])
+        if ultimoId is None:
+            return 0
+        else:
+            return ultimoId

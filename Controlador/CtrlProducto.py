@@ -14,9 +14,9 @@ class CtrlProducto():
         datos=self.insertar.SearchIdTable('Producto',nombre)
         return datos
 
-    def modificarCategoria(self,datos):
-        self.nombreCategoriaCmb,self.nuevoNombreCategoria = datos
-        self.insertar.Edit('Categoria',(self.nombreCategoriaCmb,self.nuevoNombreCategoria))
+    def modificarProducto(self,datos):
+        self.idProducto,self.nombre,self.tamanio,self.medida,self.idMarca= datos
+        self.insertar.Edit('Producto',(self.idProducto,self.nombre,self.tamanio,self.medida,self.idMarca))
 
     def eliminarProducto(self,nombre):
         self.nombre=nombre

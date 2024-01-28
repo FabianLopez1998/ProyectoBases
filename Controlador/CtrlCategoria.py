@@ -15,8 +15,8 @@ class CtrlCategoria():
         return datos
 
     def modificarCategoria(self,datos):
-        self.nombreCategoriaCmb,self.nuevoNombreCategoria = datos
-        self.insertar.Edit('Categoria',(self.nombreCategoriaCmb,self.nuevoNombreCategoria))
+        self.idCategoria,self.idCategoriaPadre,self.nuevoNombreCategoria = datos
+        self.insertar.Edit('Categoria',(self.idCategoria,self.idCategoriaPadre,self.nuevoNombreCategoria))
 
     def eliminarCategoria(self,nombre):
         self.nombre=nombre

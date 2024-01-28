@@ -52,7 +52,7 @@ id_cliente integer references Cliente(id) on delete cascade
 );
 
 create table Inventario(
-id integer primary key,
+id serial primary key,
 id_sucursal integer references Sucursal(id) on delete cascade,
 id_producto integer references Producto(id) on delete cascade,
 cantidad integer not null,

@@ -19,12 +19,17 @@ class CtrlSucursal():
         return datos
 
     def modificarSucursal(self,datos): #Modificado Alejandro
-        self.nombre,self.direccion = datos
-        self.insertar.Edit('Sucursal',(self.nombre, self.direccion))
+        self.idSucursal,self.nombre,self.direccion = datos
+        self.insertar.Edit('Sucursal',(self.idSucursal,self.nombre, self.direccion))
 
     def eliminarSucursal(self,nombre):
         self.nombre=nombre
         self.insertar.Delete('Sucursal',nombre)
+
+    def cargarIdSucursal(self,nombre):
+        self.nombre=nombre
+        idSucursal=self.insertar.searchIdAllTables('Sucursal',nombre)
+        return idSucursal
 
     def cargarTablaSucursal(self):
         sucursal=self.insertar.searchAllTables('Sucursal')
