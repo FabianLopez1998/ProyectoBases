@@ -41,7 +41,3 @@ class validar:
                 return False
         precio.isdigit()
         return True
-
-    def ValidaISBN(self, isbn):
-        if isbn.isdigit() and len(isbn)==13: return True
-        else: return False
