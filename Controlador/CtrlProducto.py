@@ -33,3 +33,8 @@ class CtrlProducto():
     def cargarNombreProducto(self,codigo):
         self.codigo=codigo
         return self.insertar.getNameProduct(self.codigo)
+
+
+    def extraerProductoPorId(self, codigo):
+        producto=self.insertar.SearchIdTableProducto(codigo)
+        return producto
