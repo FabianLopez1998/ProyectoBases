@@ -9,10 +9,12 @@ if __name__=="__main__":
     conexion=DataBaseConection()
     puntero=conexion.StarConection()
     controlador = ControladorPrincipal(puntero)
+
     controlador.setWindowTitle("Sistema de Facturacion")
     controlador.show()
-    conexion.EndConection()
+
     sys.exit(app.exec())
+    conexion.EndConection()
 
 
 

@@ -227,31 +227,6 @@ gridline-color: rgb(0, 85, 127);</string>
       </size>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
-     <property name="geometry">
-      <rect>
-       <x>910</x>
-       <y>40</y>
-       <width>181</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>Cuenca</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Quito</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Guayaquil</string>
-      </property>
-     </item>
-    </widget>
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
@@ -273,20 +248,7 @@ gridline-color: rgb(0, 85, 127);</string>
       <string>Supermarket</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_54">
-     <property name="geometry">
-      <rect>
-       <x>850</x>
-       <y>40</y>
-       <width>47</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Sucursal:</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_infoVentas">
+    <widget class="QPushButton" name="btn_inventario">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -315,7 +277,7 @@ gridline-color: rgb(0, 85, 127);</string>
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="btn_inventario">
+    <widget class="QPushButton" name="btn_infoVentas">
      <property name="geometry">
       <rect>
        <x>550</x>
@@ -373,6 +335,32 @@ gridline-color: rgb(0, 85, 127);</string>
       </size>
      </property>
     </widget>
+    <widget class="QLabel" name="label_55">
+     <property name="geometry">
+      <rect>
+       <x>850</x>
+       <y>40</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sucursal:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lblSucursal">
+     <property name="geometry">
+      <rect>
+       <x>930</x>
+       <y>40</y>
+       <width>161</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
@@ -402,7 +390,7 @@ gridline-color: rgb(0, 85, 127);</string>
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="pag_inicio">
       <widget class="QFrame" name="frame_10">
@@ -731,6 +719,29 @@ QPushButton:hover{
          </property>
         </widget>
        </widget>
+       <widget class="QLabel" name="label_54">
+        <property name="geometry">
+         <rect>
+          <x>716</x>
+          <y>90</y>
+          <width>131</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Seleccionar sucursal:</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox">
+        <property name="geometry">
+         <rect>
+          <x>860</x>
+          <y>90</y>
+          <width>181</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QWidget" name="pag_factura">
@@ -805,7 +816,7 @@ QPushButton:hover{
           <rect>
            <x>690</x>
            <y>75</y>
-           <width>61</width>
+           <width>81</width>
            <height>28</height>
           </rect>
          </property>
@@ -867,7 +878,7 @@ padding-botom:7px;</string>
           <rect>
            <x>40</x>
            <y>30</y>
-           <width>68</width>
+           <width>81</width>
            <height>16</height>
           </rect>
          </property>
@@ -880,7 +891,7 @@ padding-botom:7px;</string>
           <rect>
            <x>40</x>
            <y>55</y>
-           <width>46</width>
+           <width>81</width>
            <height>16</height>
           </rect>
          </property>
@@ -893,7 +904,7 @@ padding-botom:7px;</string>
           <rect>
            <x>690</x>
            <y>55</y>
-           <width>47</width>
+           <width>81</width>
            <height>16</height>
           </rect>
          </property>
@@ -906,7 +917,7 @@ padding-botom:7px;</string>
           <rect>
            <x>40</x>
            <y>80</y>
-           <width>49</width>
+           <width>81</width>
            <height>16</height>
           </rect>
          </property>
@@ -919,7 +930,7 @@ padding-botom:7px;</string>
           <rect>
            <x>350</x>
            <y>55</y>
-           <width>46</width>
+           <width>81</width>
            <height>16</height>
           </rect>
          </property>
@@ -932,7 +943,7 @@ padding-botom:7px;</string>
           <rect>
            <x>350</x>
            <y>80</y>
-           <width>28</width>
+           <width>81</width>
            <height>16</height>
           </rect>
          </property>
@@ -1081,7 +1092,7 @@ padding-botom:7px;</string>
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>90</y>
+           <y>80</y>
            <width>71</width>
            <height>23</height>
           </rect>
@@ -1094,7 +1105,7 @@ padding-botom:7px;</string>
          <property name="geometry">
           <rect>
            <x>90</x>
-           <y>130</y>
+           <y>120</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -1109,8 +1120,8 @@ padding-botom:7px;</string>
         <widget class="QPushButton" name="btn_agregarfact">
          <property name="geometry">
           <rect>
-           <x>200</x>
-           <y>230</y>
+           <x>80</x>
+           <y>220</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -1120,7 +1131,7 @@ padding-botom:7px;</string>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>imagenes/icons8-de-acuerdo-94.png</normaloff>imagenes/icons8-de-acuerdo-94.png</iconset>
+           <normaloff>imagenes/carrito-de-compras.png</normaloff>imagenes/carrito-de-compras.png</iconset>
          </property>
         </widget>
         <widget class="QLabel" name="label_24">
@@ -1150,7 +1161,7 @@ padding-botom:7px;</string>
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>130</y>
+           <y>120</y>
            <width>61</width>
            <height>23</height>
           </rect>
@@ -1163,7 +1174,7 @@ padding-botom:7px;</string>
          <property name="geometry">
           <rect>
            <x>90</x>
-           <y>90</y>
+           <y>80</y>
            <width>171</width>
            <height>21</height>
           </rect>
@@ -1206,6 +1217,52 @@ QPushButton:hover{
            <width>20</width>
            <height>20</height>
           </size>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_quitarAbast_2">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>220</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Quitar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/icons8-cerrar-ventana-94.png</normaloff>imagenes/icons8-cerrar-ventana-94.png</iconset>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxAbast_3">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>170</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <double>10000000000000000.000000000000000</double>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_134">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>170</y>
+           <width>61</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Precio: </string>
          </property>
         </widget>
        </widget>
@@ -1300,6 +1357,10 @@ QPushButton:hover{
          </property>
          <property name="text">
           <string>Pagar</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/icons8-de-acuerdo-94.png</normaloff>imagenes/icons8-de-acuerdo-94.png</iconset>
          </property>
         </widget>
        </widget>
@@ -1489,24 +1550,34 @@ QPushButton:hover{
          </property>
         </widget>
        </widget>
-       <widget class="QGroupBox" name="groupBox_3">
+       <widget class="QGroupBox" name="groupBox_4">
         <property name="geometry">
          <rect>
           <x>50</x>
-          <y>100</y>
-          <width>441</width>
+          <y>90</y>
+          <width>991</width>
           <height>201</height>
          </rect>
         </property>
         <property name="title">
-         <string>Datos proveedor</string>
+         <string>Lista de productos por proveedor</string>
         </property>
-        <widget class="QLineEdit" name="txt_idproductoabastecimiento">
+        <widget class="QTableView" name="tablaProductos">
          <property name="geometry">
           <rect>
-           <x>130</x>
-           <y>30</y>
-           <width>191</width>
+           <x>370</x>
+           <y>20</y>
+           <width>611</width>
+           <height>161</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboProvAbast">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>70</y>
+           <width>201</width>
            <height>22</height>
           </rect>
          </property>
@@ -1514,8 +1585,8 @@ QPushButton:hover{
         <widget class="QLabel" name="label_2">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>30</y>
+           <x>60</x>
+           <y>40</y>
            <width>101</width>
            <height>21</height>
           </rect>
@@ -1524,119 +1595,14 @@ QPushButton:hover{
           <string>Buscar proveedor:</string>
          </property>
         </widget>
-        <widget class="QTableView" name="tablaProveedor">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>70</y>
-           <width>371</width>
-           <height>111</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btn_actualizar">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>400</x>
-           <y>70</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{
-	border-radius: None;
-}
-
-QPushButton:hover{
-	border: 2px solid #173264;
-	
-}</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>imagenes/flecha-de-carga.png</normaloff>imagenes/flecha-de-carga.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btnBuscProvAbast">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>30</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{
-	border-radius: None;
-}
-
-QPushButton:hover{
-	border: 2px solid #173264;
-	
-}</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>imagenes/lupa.png</normaloff>imagenes/lupa.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="geometry">
-         <rect>
-          <x>500</x>
-          <y>100</y>
-          <width>541</width>
-          <height>201</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Lista de productos del proveedor</string>
-        </property>
-        <widget class="QTableView" name="tablaProductos">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>40</y>
-           <width>481</width>
-           <height>141</height>
-          </rect>
-         </property>
-        </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_5">
         <property name="geometry">
          <rect>
           <x>50</x>
-          <y>310</y>
+          <y>300</y>
           <width>991</width>
-          <height>291</height>
+          <height>301</height>
          </rect>
         </property>
         <property name="title">
@@ -1645,9 +1611,9 @@ QPushButton:hover{
         <widget class="QTableWidget" name="tabla_inventario">
          <property name="geometry">
           <rect>
-           <x>380</x>
+           <x>370</x>
            <y>20</y>
-           <width>601</width>
+           <width>611</width>
            <height>211</height>
           </rect>
          </property>
@@ -1684,7 +1650,7 @@ QPushButton:hover{
           <rect>
            <x>20</x>
            <y>30</y>
-           <width>101</width>
+           <width>121</width>
            <height>21</height>
           </rect>
          </property>
@@ -1695,7 +1661,7 @@ QPushButton:hover{
         <widget class="QLineEdit" name="txt_idproductoabastecimiento_2">
          <property name="geometry">
           <rect>
-           <x>130</x>
+           <x>140</x>
            <y>30</y>
            <width>171</width>
            <height>22</height>
@@ -2007,25 +1973,12 @@ QPushButton:hover{
           <x>530</x>
           <y>100</y>
           <width>501</width>
-          <height>481</height>
+          <height>271</height>
          </rect>
         </property>
         <property name="title">
          <string>Datos del producto</string>
         </property>
-        <widget class="QComboBox" name="combCatProd">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>200</y>
-           <width>171</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
         <widget class="QLabel" name="label_7">
          <property name="geometry">
           <rect>
@@ -2037,19 +1990,6 @@ QPushButton:hover{
          </property>
          <property name="text">
           <string>Marca:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_8">
-         <property name="geometry">
-          <rect>
-           <x>40</x>
-           <y>200</y>
-           <width>71</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Categoria:</string>
          </property>
         </widget>
         <widget class="QComboBox" name="combMarcaProd">
@@ -2209,63 +2149,11 @@ padding-botom:7px;</string>
           <string>Ingrese la medida</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="btnAgrCatProd">
-         <property name="geometry">
-          <rect>
-           <x>310</x>
-           <y>200</y>
-           <width>131</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{
-	border-radius: None;
-}
-
-QPushButton:hover{
-	border: 2px solid #173264;
-	
-}</string>
-         </property>
-         <property name="text">
-          <string>Agregar categoria</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
-         </property>
-        </widget>
-        <widget class="QTableWidget" name="tablaCatProduc">
-         <property name="geometry">
-          <rect>
-           <x>40</x>
-           <y>250</y>
-           <width>351</width>
-           <height>151</height>
-          </rect>
-         </property>
-         <column>
-          <property name="text">
-           <string>ID</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Categoríá</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Categoría padre</string>
-          </property>
-         </column>
-        </widget>
         <widget class="QPushButton" name="btnAgrProd">
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>420</y>
+           <y>210</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2282,7 +2170,7 @@ QPushButton:hover{
          <property name="geometry">
           <rect>
            <x>130</x>
-           <y>420</y>
+           <y>210</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2302,7 +2190,7 @@ QPushButton:hover{
          <property name="geometry">
           <rect>
            <x>230</x>
-           <y>420</y>
+           <y>210</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2322,7 +2210,7 @@ QPushButton:hover{
          <property name="geometry">
           <rect>
            <x>380</x>
-           <y>420</y>
+           <y>210</y>
            <width>93</width>
            <height>28</height>
           </rect>
@@ -2533,7 +2421,7 @@ padding-botom:7px;</string>
         <property name="geometry">
          <rect>
           <x>60</x>
-          <y>420</y>
+          <y>440</y>
           <width>461</width>
           <height>161</height>
          </rect>
@@ -2660,7 +2548,7 @@ padding-botom:7px;</string>
            <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
          </property>
         </widget>
-        <widget class="QPushButton" name="btnBuscMarca_2">
+        <widget class="QPushButton" name="btnBuscCat">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -2717,7 +2605,7 @@ QPushButton:hover{
         <property name="geometry">
          <rect>
           <x>60</x>
-          <y>260</y>
+          <y>270</y>
           <width>461</width>
           <height>161</height>
          </rect>
@@ -2897,6 +2785,98 @@ padding-botom:7px;</string>
          </property>
         </widget>
        </widget>
+       <widget class="QGroupBox" name="groupBox_20">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>390</y>
+          <width>501</width>
+          <height>171</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Categoría-Producto</string>
+        </property>
+        <widget class="QComboBox" name="combCatProd">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>40</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>40</y>
+           <width>71</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Categoría:</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnAgrCatProd">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>130</y>
+           <width>131</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	border-radius: None;
+}
+
+QPushButton:hover{
+	border: 2px solid #173264;
+	
+}</string>
+         </property>
+         <property name="text">
+          <string>Agregar categoría</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>imagenes/agregar-contacto.png</normaloff>imagenes/agregar-contacto.png</iconset>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_20">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>70</y>
+           <width>71</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Producto:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="combCatProd_2">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>70</y>
+           <width>171</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </widget>
      <widget class="QWidget" name="page_registrar">
@@ -2921,7 +2901,7 @@ padding-botom:7px;</string>
           <x>150</x>
           <y>90</y>
           <width>801</width>
-          <height>271</height>
+          <height>281</height>
          </rect>
         </property>
         <property name="layoutDirection">
@@ -3254,9 +3234,9 @@ padding-botom:7px;</string>
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>370</y>
+          <y>380</y>
           <width>801</width>
-          <height>241</height>
+          <height>231</height>
          </rect>
         </property>
         <property name="title">
@@ -3268,7 +3248,7 @@ padding-botom:7px;</string>
            <x>30</x>
            <y>60</y>
            <width>741</width>
-           <height>161</height>
+           <height>151</height>
           </rect>
          </property>
         </widget>
@@ -3282,9 +3262,11 @@ padding-botom:7px;</string>
           </rect>
          </property>
          <property name="text">
-          <string>Ver solo clientes con targeta de desacuento</string>
+          <string>Ver solo clientes con targeta de descuento</string>
          </property>
         </widget>
+        <zorder>cbxaprov</zorder>
+        <zorder>tablaClientes</zorder>
        </widget>
        <widget class="QFrame" name="frame_5">
         <property name="geometry">
@@ -3695,7 +3677,7 @@ QPushButton:hover{
           </font>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;Registro de ventas&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;Detalles de ventas&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::AutoText</enum>
