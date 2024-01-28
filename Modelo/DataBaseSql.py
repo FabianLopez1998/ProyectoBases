@@ -30,7 +30,11 @@ class DataBaseSql():
         elif tabla=='Factura_Producto':
             print('insert')
         elif tabla=='Inventario':
-            print('insert')
+            sql=('insert into Inventario(id_sucursal, id_producto, cantidad, precio_base, fecha) '
+                 'values ( %s, %s,%s, %s,%s)')
+            valores=(data[0],data[1],data[2],data[3],data[4])
+            puntero.execute(sql,valores)
+            print('Datos insertados correctamente')
         elif tabla=='Marca':
             sql='insert into Marca(nombre, id_fabricante) values ( %s, %s)'
             puntero.execute(sql, (data[0], data[1]))
@@ -139,7 +143,10 @@ class DataBaseSql():
         elif tabla=='Factura_Producto':
             print('insert')
         elif tabla=='Inventario':
-            print('insert')
+            sql='select * from inventario'
+            puntero.execute(sql)
+            fabricante = puntero.fetchall()
+            return fabricante
         elif tabla=='Marca':
             sql='select * from marca'
             puntero.execute(sql)
@@ -294,3 +301,30 @@ class DataBaseSql():
             return 0
         else:
             return ultimoId
+
+#======================================Codigo Abastecimiento==============================================================#
+
+    def getTablaProductosPorProveedor(self, fab):
+        puntero=self.conexion.cursor()
+        sql='''SELECT P.id, P.nombre, M.nombre, P.tamanio, P.medida
+            FROM Fabricante F
+            JOIN Marca M ON F.id = M.id_fabricante
+            JOIN Producto P ON M.id = P.id_marca
+            WHERE F.nombre = %s'''
+        puntero.execute(sql,(fab,))
+        tabla=puntero.fetchall()
+        return tabla
+
+    def SearchIdTableProducto(self, id):
+        puntero=self.conexion.cursor()
+        sql=('select producto.nombre, marca.nombre, producto.tamanio, producto.medida'
+             ' from producto '
+             ' join marca on marca.id = producto.id_marca '
+             ' where producto.id = %s ')
+        puntero.execute(sql,(id,))
+        producto=puntero.fetchone()
+        return producto
+
+    def crearVistaTemporal(self):
+        pass
+

@@ -536,7 +536,7 @@ class Ui_MainWindow(object):
                 self.groupBox_4 = QtWidgets.QGroupBox(parent=self.frame_4)
                 self.groupBox_4.setGeometry(QtCore.QRect(50, 90, 991, 201))
                 self.groupBox_4.setObjectName("groupBox_4")
-                self.tablaProductos = QtWidgets.QTableView(parent=self.groupBox_4)
+                self.tablaProductos = QtWidgets.QTableWidget(parent=self.groupBox_4)
                 self.tablaProductos.setGeometry(QtCore.QRect(370, 20, 611, 161))
                 self.tablaProductos.setObjectName("tablaProductos")
                 self.comboProvAbast = QtWidgets.QComboBox(parent=self.groupBox_4)

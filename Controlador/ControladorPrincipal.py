@@ -3,7 +3,7 @@ from datetime import datetime
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QStandardItemModel
-
+from Controlador.CtrlAbastecer import CtrlAbastecer
 from Controlador.CtrlCategoria import CtrlCategoria
 from Controlador.CtrlCategoriaProducto import CtrlCategoriaProducto
 from Controlador.CtrlFabricante import CtrlFabricante
@@ -41,12 +41,13 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_info_2.clicked.connect(self.pagDetallesAbast)
         self.ui.btn_info.clicked.connect(self.paginfo)
 
-        self.agregarTablaSucursal()
-        self.ui.comboBox.currentIndexChanged.connect(self.actualizar_label)
+
 
 
         #-------------------------------------- PAGINA1: PAGINA PRINCIPAL Y MANTENIMIENTO DE SUCURSAL -------------------------------------
 
+        self.agregarTablaSucursal()
+        self.ui.comboBox.currentIndexChanged.connect(self.actualizar_label)
         self.ui.btnAgrSuc.clicked.connect(self.agregarSucursal)
         self.ui.btnEditSuc.clicked.connect(self.editarSucursal)
         self.ui.btnElimSuc.clicked.connect(self.eliminarSucursal)
@@ -61,7 +62,12 @@ class ControladorPrincipal(QMainWindow):
         self.agregarCabeceraTablaDetalleFactura()
 
         #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
-
+        self.ui.btnBuscProdAbast.clicked.connect(self.buscarProductoAbastecimiento)
+        self.ui.btn_agregarAbast.clicked.connect(self.AgregarAlInventario)
+        self.ui.btn_quitarAbast.clicked.connect(self.QuitarAlInventario)
+        self.ui.btn_agregarAbast_2.clicked.connect(self.Abastecer)
+        self.ui.comboProvAbast.currentIndexChanged.connect(self.cargarTablaProductosAbastecimieto)
+        self.lista = []
         #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
         self.ui.btnBuscFabri.clicked.connect(self.buscarFabricante)
@@ -120,9 +126,12 @@ class ControladorPrincipal(QMainWindow):
         self.cargarFechaActual()
         self.cargarIdFactura()
     def pagabastecer(self):
+        self.ui.btn_agregarAbast.setEnabled(False)
+        self.ui.btn_quitarAbast.setEnabled(False)
         self.ui.stackedWidget.setCurrentIndex(2)
+        self.cargarComboFabricante(self.ui.comboProvAbast)
     def pagagregarproducto(self):
-        self.cargarComboFabricante()
+        self.cargarComboFabricante(self.ui.combFabric_Marca)
         self.cargarComboCategoria()
         self.cargarComboMarca()
         self.cargarComboCategoriaProducto()
@@ -265,6 +274,72 @@ class ControladorPrincipal(QMainWindow):
         nombre=producto.cargarNombreProducto(self.ui.txtbuscarProducto2.text())
         self.ui.lblApellidos_2.setText(nombre[0])
     #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
+
+    def cargarTablaProductosAbastecimieto(self):
+        abastecer=CtrlAbastecer(self.conexion)
+        datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
+        self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tablaProductos)
+
+    def cargarTablaInventario(self):
+        abastecer=CtrlAbastecer(self.conexion)
+        datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
+        self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tabla_inventario)
+
+    def limpiarAbastecimiento(self):
+        self.ui.txt_idproductoabastecimiento_2.setText("")
+        self.ui.lblDescripcion.setText("")
+        self.ui.lblMarca.setText("")
+        self.ui.lblTamanio.setText("")
+        self.ui.lblMedida.setText("")
+        self.ui.btn_agregarAbast.setEnabled(False)
+        self.ui.btn_quitarAbast.setEnabled(False)
+    def buscarProductoAbastecimiento(self):
+        if True:
+            nombre=self.ui.txt_idproductoabastecimiento_2.text()
+            producto=CtrlProducto(self.conexion)
+            datosProducto=producto.extraerProductoPorId(nombre)
+            print('datososs: ',datosProducto)
+            self.ui.lblDescripcion.setText(datosProducto[0])
+            self.ui.lblMarca.setText(datosProducto[1])
+            self.ui.lblTamanio.setText(datosProducto[2])
+            self.ui.lblMedida.setText(datosProducto[3])
+            self.ui.btn_agregarAbast.setEnabled(True)
+            self.ui.btn_quitarAbast.setEnabled(True)
+        else:
+            QMessageBox.warning(self, "ERROR", "No existe el Producto!")
+
+
+    def AgregarAlInventario(self):
+        sucursal=CtrlSucursal(self.conexion)
+        suc = sucursal.cargarDatosSucursal(self.ui.lblSucursal.text())
+        id_suc = suc[0]
+        id_pro = self.ui.txt_idproductoabastecimiento_2.text()
+        cantidad = self.ui.box_cantidadabast.text()
+        precio = self.ui.doubleSpinBoxAbast.value()
+        fecha = datetime.now().date()
+        self.lista.append((id_suc, id_pro, cantidad, precio, fecha))
+        self.cargarDatosTabla(self.lista,['ID', 'Descripcion','cantidad','precio'],self.ui.tabla_inventario)
+        self.limpiarAbastecimiento()
+        pass
+    def QuitarAlInventario(self):
+        self.lista = [tupla for tupla in self.lista if tupla[1] != self.ui.txt_idproductoabastecimiento_2.text()]
+        self.cargarDatosTabla(self.lista,['ID', 'Descripcion','cantidad','precio'],self.ui.tabla_inventario)
+        self.limpiarAbastecimiento()
+
+
+    def Abastecer(self):
+        abastecer=CtrlAbastecer(self.conexion)
+        for datos in self.lista:
+            abastecer.guardarAbastecer(datos)
+        self.limpiarAbastecimiento()
+
+
+
+
+
+
+
+
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
 
@@ -682,11 +757,11 @@ class ControladorPrincipal(QMainWindow):
         categoria=CtrlCategoria(self.conexion)
         datos=categoria.cargarTablaCategoria()
         self.ui.combCatProd.addItems([item[1] for item in datos])
-    def cargarComboFabricante(self):
-        self.ui.combFabric_Marca.clear()
+    def cargarComboFabricante(self, combo):
+        combo.clear()
         fabricante=CtrlFabricante(self.conexion)
         datos=fabricante.cargarTablaFabricante()
-        self.ui.combFabric_Marca.addItems([item[1] for item in datos])
+        combo.addItems([item[1] for item in datos])
     def cargarComboSucursal(self):
         self.ui.comboBox.clear()
         sucursal=CtrlSucursal(self.conexion)
@@ -700,7 +775,6 @@ class ControladorPrincipal(QMainWindow):
         eliminar.setEnabled(estado)
 
     def cargarDatosTabla(self, lista, columnas, tabla):  ##Cambios en la tabla ya funciona correctamente
-        self.tabla = tabla
         self.limpiaTabla(tabla)
         tabla.setColumnCount(len(columnas))
         tabla.setHorizontalHeaderLabels(columnas)
