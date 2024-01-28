@@ -6,16 +6,19 @@ class CtrlSucursal():
         self.conexion=conexion
         self.insertar=DataBaseSql(self.conexion)
 
-    def guardarSucursal(self,datos):
+    def guardarSucursal(self,datos): #Modificado Alejandro
         self.nombre,self.direccion=datos
-        self.insertar.Insert('Sucursal',(self.nombre,self.direccion))
+        if self.cargarDatosSucursal(self.nombre) == None:
+            self.insertar.Insert('Sucursal',(self.nombre,self.direccion))
+            return True
+        else: return False
 
     def cargarDatosSucursal(self,nombre):
         self.nombre=nombre
         datos=self.insertar.SearchIdTable('Sucursal',nombre)
         return datos
 
-    def modificarSucursal(self,datos):
+    def modificarSucursal(self,datos): #Modificado Alejandro
         self.nombre,self.direccion = datos
         self.insertar.Edit('Sucursal',(self.nombre, self.direccion))
 

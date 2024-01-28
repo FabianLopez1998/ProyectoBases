@@ -75,7 +75,7 @@ class DataBaseSql():
 
         elif tabla=='Cliente':
             sql='select * from cliente where id = %s'
-            puntero.execute(sql,(id,))
+            puntero.execute(sql, (id,))
             cliente=puntero.fetchone()
             return cliente
         elif tabla=='Fabricante':
@@ -238,7 +238,6 @@ class DataBaseSql():
             print('insert')
         else:print('ocurrio un error, Tabla no encontrada')
         self.conexion.commit()
-
     def searchIdAllTables(self,tabla,id):
         puntero=self.conexion.cursor()
         if tabla=='Sucursal':

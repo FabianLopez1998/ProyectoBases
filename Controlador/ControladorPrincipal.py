@@ -1,14 +1,16 @@
 import sys
 from datetime import datetime
 
-from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QTableWidget, QMessageBox
-from PyQt6.uic.properties import QtWidgets
 
 from Controlador.CtrlCategoria import CtrlCategoria
 from Controlador.CtrlCategoriaProducto import CtrlCategoriaProducto
 from Controlador.CtrlFabricante import CtrlFabricante
 from Controlador.CtrlMarca import CtrlMarca
 from Controlador.CtrlProducto import CtrlProducto
+from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QTableWidget, QMessageBox, QHeaderView
+
+from Modelo import Validaciones
+
 from Vista.ventana import Ui_MainWindow
 from conection import DataBaseConection
 from Controlador.CtrlSucursal import CtrlSucursal
@@ -18,9 +20,12 @@ class ControladorPrincipal(QMainWindow):
 
     def __init__(self,conexion):
         super().__init__()
+        self.variableGlobal=None
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.conexion=conexion
+        self.cargarComboSucursal()
+        self.actualizar_label()
         self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc, self.ui.btnEditSuc, self.ui.btnElimSuc, False)
         #--------------------------Pestañas parte superior--------------------------
         self.ui.btn_inicio.clicked.connect(self.paginicio)
@@ -33,193 +38,10 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_info_2.clicked.connect(self.pagDetallesAbast)
         self.ui.btn_info.clicked.connect(self.paginfo)
 
-# <<<<<<< HEAD
-#         #----------------------Seccion Clientes---------------------------------#
-#         self.ui.btn_agregaruser.clicked.connect(self.obtencionDatosCliente)
-#         self.ui.btn_buscarUser.clicked.connect(self.buscarCliente)
-#         self.ui.btn_eliminaruser.clicked.connect(self.eliminarCliente)
-#         self.ui.btn_modificaruser.clicked.connect(self.modificarCliente)
-#
-#         #--------------------------Seccion Sucursal--------------------------#
-#         self.ui.btnAgrSuc.clicked.connect(self.obtencionDatosSucursal)
-#         self.ui.btnBuscSuc.clicked.connect(self.buscarSucursal)
-#         self.ui.btnEditSuc.clicked.connect(self.modificarSucursal)
-#         self.ui.btnElimSuc.clicked.connect(self.eliminarSucursal)
-#         self.ui.btn_factura.clicked.connect(self.pagfactura)
-#         self.ui.btn_abastecer.clicked.connect(self.pagabastecer)
-#         self.ui.btn_agregarproducto.clicked.connect(self.pagagregarproducto)
-#         self.ui.btn_registrar.clicked.connect(self.panelClientes)
-#         self.ui.btn_info.clicked.connect(self.paginfo)
-#     # def paginicio(self):
-#     #     self.ui.stackedWidget.setCurrentIndex(0)
-#
-#     def pagfactura(self):
-#         self.ui.stackedWidget.setCurrentIndex(1)
-#
-#     def pagabastecer(self):
-#         self.ui.stackedWidget.setCurrentIndex(2)
-#
-#     def pagagregarproducto(self):
-#         self.ui.stackedWidget.setCurrentIndex(3)
-#
-# #-----------------------Obtecion de Datos Cliente---------------------------
-#     def panelClientes(self):
-#         self.ui.stackedWidget.setCurrentIndex(4)
-#         self.tablaClientes()
-#         self.llenarDatosClientes()
-#
-#     def obtencionDatosCliente(self):
-#         id=self.ui.txtIdentificacion.text()
-#         nombre=self.ui.txtNombres.text()
-#         apellido=self.ui.txtApellidos.text()
-#         direccion=self.ui.txtDireccion.text()
-#         email=self.ui.txtEmail.text()
-#         telefono=self.ui.txtTelefono.text()
-#         if self.ui.radiobtn_siuser.isChecked():
-#             socio=True
-#         elif self.ui.radiobtn_nouser.isChecked():
-#             socio=False
-#
-#         datos=(id,nombre,apellido,direccion,email,telefono,socio)
-#         self.cliente=CtrlCliente(self.conexion)
-#         self.cliente.guardarCliente(datos)
-#
-#     def buscarCliente(self):
-#         id=self.ui.txtIdentificacion.text()
-#         self.cliente=CtrlCliente(self.conexion)
-#         datosCliente=self.cliente.cargarDatosCliente(id)
-#         self.ui.txtNombres.setText(datosCliente[1])
-#         self.ui.txtApellidos.setText(datosCliente[2])
-#         self.ui.txtDireccion.setText(datosCliente[3])
-#         self.ui.txtEmail.setText(datosCliente[4])
-#         self.ui.txtTelefono.setText(datosCliente[5])
-#         if datosCliente[6]:
-#             self.ui.radiobtn_siuser.setChecked(True)
-#         elif datosCliente[6]==False:
-#             self.ui.radiobtn_nouser.setChecked(True)
-#         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
-#                            self.ui.btn_modificaruser, self.ui.btn_eliminaruser, True)
-#
-#     def eliminarCliente(self):
-#         id=self.ui.txtIdentificacion.text()
-#         self.cliente=CtrlCliente(self.conexion)
-#         self.cliente.eliminarCliente(id)
-#         self.vaciarCamposCliente()
-#         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
-#                            self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
-#
-#     def modificarCliente(self):
-#         id=self.ui.txtIdentificacion.text()
-#         nombre=self.ui.txtNombres.text()
-#         apellido=self.ui.txtApellidos.text()
-#         direccion=self.ui.txtDireccion.text()
-#         email=self.ui.txtEmail.text()
-#         telefono=self.ui.txtTelefono.text()
-#         if self.ui.radiobtn_siuser.isChecked():
-#             socio=True
-#         elif self.ui.radiobtn_nouser.isChecked():
-#             socio=False
-#
-#         datos=(id,nombre,apellido,direccion,email,telefono,socio)
-#         self.cliente=CtrlCliente(self.conexion)
-#         self.cliente.modificarCliente(datos)
-#         self.vaciarCamposCliente()
-#         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
-#                            self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
-#
-#     def tablaClientes(self):
-#         self.ui.tablaClientes.setColumnCount(7)
-#         nombres_columnas = ["Cedula", "Nombres", "Apellidos", "Direccion", "Email", "Telefono", "Si es Socio"]
-#         self.ui.tablaClientes.setHorizontalHeaderLabels(nombres_columnas)
-#
-#
-#     def llenarDatosClientes(self):
-#         self.cliente=CtrlCliente(self.conexion)
-#         datosClientes=self.cliente.cargarTablaClientes()
-#
-#         for row_num, datos in enumerate(datosClientes):
-#             self.ui.tablaClientes.insertRow(row_num)
-#             for col_num, valor in enumerate(datos):
-#                 item = QTableWidgetItem(str(valor))
-#                 self.ui.tablaClientes.setItem(row_num, col_num, item)
-#
-#     def vaciarCamposCliente(self):
-#         self.ui.txtIdentificacion.setText('')
-#         self.ui.txtNombres.setText('')
-#         self.ui.txtApellidos.setText('')
-#         self.ui.txtDireccion.setText('')
-#         self.ui.txtEmail.setText('')
-#         self.ui.txtTelefono.setText('')
-#         self.ui.radiobtn_siuser.setChecked(False)
-#         self.ui.radiobtn_nouser.setChecked(False)
-#
-#
-#     def paginfo(self):
-#         self.ui.stackedWidget.setCurrentIndex(5)
-#
-#         #Probando
-#         self.ui.btn_buscarUser.clicked.connect(lambda: self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, True))
-#
-#     #-------------------------------SUCURSAL------------------------------------------#
-#     def panelSucursal(self):
-#         self.ui.stackedWidget.setCurrentIndex(0)
-#         self.tablaSucursal()
-#         self.llenarDatosSucursal()
-#
-#     def cargarCmbSucursal(self):
-#         sucursal=
-#
-#
-#     def obtencionDatosSucursal(self):
-#         nombre=self.ui.txtNomSucur.text()
-#         direccion=self.ui.txtDirSucur.text()
-#         datos=(nombre,direccion)
-#         self.sucursal=CtrlSucursal(self.conexion)
-#         self.sucursal.guardarSucursal(datos)
-#
-#     def buscarSucursal(self):
-#         nombre=self.ui.txtNomSucur.text()
-#         self.sucursal=CtrlSucursal(self.conexion)
-#         datosSucursal=self.sucursal.cargarDatosSucursal(nombre)
-#         self.ui.txtDirSucur.setText(datosSucursal[2])
-#
-#     def modificarSucursal(self):
-#         nombre=self.ui.txtNomSucur.text()
-#         direccion=self.ui.txtDirSucur.text()
-#         datos=(nombre,direccion)
-#         self.sucursal=CtrlSucursal(self.conexion)
-#         self.sucursal.modificarSucursal(datos)
-#         self.vaciarCamposSucursal()
-#
-#     def eliminarSucursal(self):
-#         nombre=self.ui.txtNomSucur.text()
-#         self.sucursal=CtrlSucursal(self.conexion)
-#         self.sucursal.eliminarSucursal(nombre)
-#         self.vaciarCamposSucursal()
-#
-#     def tablaSucursal(self):
-#         self.ui.tableWidget.setColumnCount(3)
-#         nombres_columnas = ["Id", "Nombre", "Direccion"]
-#         self.ui.tableWidget.setHorizontalHeaderLabels(nombres_columnas)
-#
-#
-#     def llenarDatosSucursal(self):
-#         self.sucursal=CtrlSucursal(self.conexion)
-#         datosSucursal=self.sucursal.cargarTablaSucursal()
-#
-#         for row_num, datos in enumerate(datosSucursal):
-#             self.ui.tableWidget.insertRow(row_num)
-#             for col_num, valor in enumerate(datos):
-#                 item = QTableWidgetItem(str(valor))
-#                 self.ui.tableWidget.setItem(row_num, col_num, item)
-#
-#
-#     def vaciarCamposSucursal(self):
-#         self.ui.txtNomSucur.setText('')
-#         self.ui.txtDirSucur.setText('')
-#
-# =======
         self.agregarTablaSucursal()
+        self.ui.comboBox.currentIndexChanged.connect(self.actualizar_label)
+
+
         #-------------------------------------- PAGINA1: PAGINA PRINCIPAL Y MANTENIMIENTO DE SUCURSAL -------------------------------------
 
         self.ui.btnAgrSuc.clicked.connect(self.agregarSucursal)
@@ -276,7 +98,9 @@ class ControladorPrincipal(QMainWindow):
 
 
 
-
+    def actualizar_label(self):
+        texto_seleccionado = self.ui.comboBox.currentText()
+        self.ui.lblSucursal.setText(texto_seleccionado)
 
     #--------------------------------- MANEJO DE CAMBIOS DE PESTAÑAS ------------------------------
     def paginicio(self):
@@ -284,7 +108,7 @@ class ControladorPrincipal(QMainWindow):
         self.agregarTablaSucursal()
         self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc, self.ui.btnEditSuc, self.ui.btnElimSuc, False)
 
-# >>>>>>> origin/Alejandro
+    # >>>>>>> origin/Alejandro
     def pagfactura(self):
         self.ui.stackedWidget.setCurrentIndex(1)
         self.cargarFechaActual()
@@ -304,6 +128,7 @@ class ControladorPrincipal(QMainWindow):
 
     def pagregistrar(self):
         self.ui.stackedWidget.setCurrentIndex(4)
+        self.agregarTablaCliente()
         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
     def paginventario(self):
         self.ui.stackedWidget.setCurrentIndex(5)
@@ -321,13 +146,17 @@ class ControladorPrincipal(QMainWindow):
         self.sucursal=CtrlSucursal(self.conexion)
         datosSucursal=self.sucursal.cargarTablaSucursal()
         self.cargarDatosTabla(datosSucursal,['id','Nombre','Direccion'],self.ui.tableWidget)
+        self.cargarComboSucursal()
     def buscarSucursal(self):
         nombre=self.ui.txtNomSucur.text()
         self.sucursal=CtrlSucursal(self.conexion)
         datosSucursal=self.sucursal.cargarDatosSucursal(nombre)
-        self.ui.txtDirSucur.setText(datosSucursal[2])
-        self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc,
-                           self.ui.btnEditSuc, self.ui.btnElimSuc, True)
+        if datosSucursal != None:
+            self.ui.txtDirSucur.setText(datosSucursal[2])
+            self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc,
+                               self.ui.btnEditSuc, self.ui.btnElimSuc, True)
+        else:
+            QMessageBox.warning(self, "ERROR", "No existe la sucursal!")
 
     def agregarSucursal(self):
         nombre=self.ui.txtNomSucur.text()
@@ -335,11 +164,12 @@ class ControladorPrincipal(QMainWindow):
         if nombre!='' and direccion != '':
             datos=(nombre,direccion)
             self.sucursal=CtrlSucursal(self.conexion)
-            self.sucursal.guardarSucursal(datos)
-            QMessageBox.information(self, "Registro", "Sucursal agregada con éxito!")
-            self.cancelarSucursal()
-            self.agregarTablaSucursal()
-            pass
+            if self.sucursal.guardarSucursal(datos):
+                QMessageBox.information(self, "Registro", "Sucursal agregada con éxito!")
+                self.cancelarSucursal()
+                self.agregarTablaSucursal()
+            else:
+                QMessageBox.warning(self, "ERROR", "Ya existe la sucursal con ese nombre!")
         else:
             QMessageBox.information(self, "Sucursales", "Llene todos los campos!")
 
@@ -355,7 +185,6 @@ class ControladorPrincipal(QMainWindow):
             self.agregarTablaSucursal()
             self.manejoBotones(self.ui.btnBuscSuc, self.ui.btnAgrSuc, self.ui.btnEditSuc,
                                self.ui.btnElimSuc, False)
-            pass
         else:
             QMessageBox.information(self, "Sucursales", "Llene todos los campos!")
 
@@ -405,6 +234,7 @@ class ControladorPrincipal(QMainWindow):
 
     ###FABRICANTE
     def buscarFabricante(self):
+        self.variableGlobal=self.ui.txtNomFabri.text()
         nombre=self.ui.txtNomFabri.text()
         fabricante=CtrlFabricante(self.conexion)
         datosFabricante=fabricante.cargarDatosFabricante(nombre)
@@ -428,6 +258,7 @@ class ControladorPrincipal(QMainWindow):
         nombre=self.ui.txtNomFabri.text()
         direccion=self.ui.txtDirFabri.text()
         if nombre!= '' and direccion != '':
+            #id=self.fabricante.cargarIdFabricante(self.variableGlobal)
             datos=(nombre,direccion)
             self.fabricante=CtrlFabricante(self.conexion)
             self.fabricante.modificarFabricante(datos)
@@ -512,6 +343,7 @@ class ControladorPrincipal(QMainWindow):
             nombre=self.ui.lineEditCat.text()
             categoria=CtrlCategoria(self.conexion)
             datosCategoria=categoria.cargarDatosCategoria(nombre)
+            print(datosCategoria)
             self.ui.combCatPadre.setCurrentText(datosCategoria[0])
             self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat,
                                self.ui.btnEditCat, self.ui.btnElimCat, True)
@@ -637,12 +469,51 @@ class ControladorPrincipal(QMainWindow):
         self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd, self.ui.btnEditProd, self.ui.btnElimProd,False)
 
     #-------------------------------------- PAGINA5: REGISTRO DE CLIENTES  -------------------------------------
+    def Validaciones(self, cedula_Ruc, nombre, apellido, direccion, telefono, correo, socio):
+        validar = Validaciones.validar()
+        if not validar.validarVacios(cedula_Ruc, nombre, direccion, telefono, correo) :
+            QMessageBox.warning(self, "ERROR", "Llene todos los campos!")
+            return False
+        if socio == None:
+            QMessageBox.warning(self, "ERROR", "Seleccione si tiene o no tarjeta de descuento!")
+            return False
 
+        if not validar.validarCedulaRuc(cedula_Ruc):
+            QMessageBox.warning(self, "ERROR", "Cedula o Ruc no validos!")
+            return False
+
+        if not validar.ValidaSoloLetras(nombre):
+            QMessageBox.warning(self, "ERROR", "Nombre o apellidos no validos!")
+            return False
+
+        if not (validar.ValidaSoloLetras(apellido)):
+            QMessageBox.warning(self, "ERROR", "Apellidos no válidos!")
+            return False
+
+        if not telefono.isdigit():
+            QMessageBox.warning(self, "ERROR", "Telefono no valido!")
+            return False
+
+        if not validar.es_correo_valido(correo):
+            QMessageBox.warning(self, "ERROR", "Correo no valido!")
+            return False
+
+        return True
+
+    def agregarTablaCliente(self):
+        self.entidad=CtrlCliente(self.conexion)
+        datos=self.entidad.cargarTablaClientes()
+        print(list(datos))
+        self.cargarDatosTabla(datos,['id','Nombre','Apellido','Dirección','Email', 'Teléfono', 'Descuento'],self.ui.tablaClientes)
     def buscarCliente(self):
-        if True:
-            id=self.ui.txtIdentificacion.text()
-            self.cliente=CtrlCliente(self.conexion)
-            datosCliente=self.cliente.cargarDatosCliente(id)
+        id=self.ui.txtIdentificacion.text()
+        self.cliente=CtrlCliente(self.conexion)
+        if not id.isdigit():
+            QMessageBox.warning(self, "ERROR", "No existe el Cliente!")
+            print("Hola")
+            return
+        datosCliente=self.cliente.cargarDatosCliente(id)
+        if datosCliente!=None:
             self.ui.txtNombres.setText(datosCliente[1])
             self.ui.txtApellidos.setText(datosCliente[2])
             self.ui.txtDireccion.setText(datosCliente[3])
@@ -654,31 +525,31 @@ class ControladorPrincipal(QMainWindow):
                 self.ui.radiobtn_nouser.setChecked(True)
             self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
                                self.ui.btn_modificaruser, self.ui.btn_eliminaruser, True)
-            pass
+
         else:
             QMessageBox.warning(self, "ERROR", "No existe el Cliente!")
 
     def agregarCliente(self):
-        if True:
-            id=self.ui.txtIdentificacion.text()
-            nombre=self.ui.txtNombres.text()
-            apellido=self.ui.txtApellidos.text()
-            direccion=self.ui.txtDireccion.text()
-            email=self.ui.txtEmail.text()
-            telefono=self.ui.txtTelefono.text()
-
-            if self.ui.radiobtn_siuser.isChecked():
-                socio=True
-            elif self.ui.radiobtn_nouser.isChecked():
-                socio=False
-
+        id=self.ui.txtIdentificacion.text()
+        nombre=self.ui.txtNombres.text()
+        apellido=self.ui.txtApellidos.text()
+        direccion=self.ui.txtDireccion.text()
+        email=self.ui.txtEmail.text()
+        telefono=self.ui.txtTelefono.text()
+        if self.ui.radiobtn_siuser.isChecked(): socio=True
+        elif self.ui.radiobtn_nouser.isChecked(): socio=False
+        else:socio = None
+        if self.Validaciones(id, nombre, apellido, direccion, telefono, email, socio):
             datos=(id,nombre,apellido,direccion,email,telefono,socio)
             self.cliente=CtrlCliente(self.conexion)
-            self.cliente.guardarCliente(datos)
-            QMessageBox.information(self, "Registro", "Cliente agregado con éxito!")
-            pass
-        else:
-            QMessageBox.information(self, "Clientes", "!")
+            if self.cliente.guardarCliente(datos): #Validar existencia
+                QMessageBox.information(self, "Registro", "Cliente agregado con éxito!")
+                self.cancelarCliente()
+                self.agregarTablaCliente()
+                self.agregarTablaCliente()
+                pass
+            else:
+                QMessageBox.information(self, "Clientes", "El cliente ya existe!")
 
     def editarCliente(self):
         if True:
@@ -696,6 +567,7 @@ class ControladorPrincipal(QMainWindow):
             self.cliente=CtrlCliente(self.conexion)
             self.cliente.modificarCliente(datos)
             self.cancelarCliente()
+            self.agregarTablaCliente()
             self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
                                self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
             pass
@@ -708,6 +580,7 @@ class ControladorPrincipal(QMainWindow):
             self.cliente=CtrlCliente(self.conexion)
             self.cliente.eliminarCliente(id)
             self.cancelarCliente()
+            self.agregarTablaCliente()
             self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
                                self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
             pass
@@ -721,6 +594,8 @@ class ControladorPrincipal(QMainWindow):
         self.ui.txtDireccion.setText("")
         self.ui.txtTelefono.setText("")
         self.ui.txtEmail.setText("")
+        self.ui.radiobtn_siuser.setChecked(False)
+        self.ui.radiobtn_nouser.setChecked(False)
         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
 
 
@@ -733,7 +608,7 @@ class ControladorPrincipal(QMainWindow):
 
 
 
-
+#=============================================================================================================================================================
     #--------------------------------------- CODIGOS EXTRA PARA TODAS LAS VENTANAS --------------------------------------
     def cargarComboProductos(self):
         self.ui.combCatProd_2.clear()
@@ -765,28 +640,30 @@ class ControladorPrincipal(QMainWindow):
         self.ui.comboBox.clear()
         sucursal=CtrlSucursal(self.conexion)
         datos=sucursal.cargarTablaSucursal()
-        for suc in datos:
-            self.ui.comboBox.addItem(suc.nombre)
+        self.ui.comboBox.addItems([item[1] for item in datos])
+
     def manejoBotones(self, buscar, agregar, modificar, eliminar, estado):
         buscar.setEnabled(not estado)
         agregar.setEnabled(not estado)
         modificar.setEnabled(estado)
         eliminar.setEnabled(estado)
 
-    def cargarDatosTabla(self, lista, columnas, tabla):
+    def cargarDatosTabla(self, lista, columnas, tabla):  ##Cambios en la tabla ya funciona correctamente
+        self.tabla = tabla
+        self.limpiaTabla(tabla)
         tabla.setColumnCount(len(columnas))
         tabla.setHorizontalHeaderLabels(columnas)
-
+        tabla.verticalHeader().setVisible(False)
         for row_num, datos in enumerate(lista):
-            self.ui.tableWidget.insertRow(row_num)
+            tabla.insertRow(row_num)
             for col_num, valor in enumerate(datos):
                 item = QTableWidgetItem(str(valor))
-                self.ui.tableWidget.setItem(row_num, col_num, item)
+                tabla.setItem(row_num, col_num, item)
 
 
 
     def limpiaTabla(self, tabla):
-        tabla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
+        tabla.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         tabla.horizontalHeader().setStretchLastSection(True)
         tabla.clearContents()
         tabla.setRowCount(0)
