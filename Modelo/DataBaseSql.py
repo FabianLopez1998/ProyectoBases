@@ -542,30 +542,51 @@ class DataBaseSql():
         sql = '''
             CREATE TEMPORARY VIEW vista_temporal AS
                 SELECT
-                    i.id AS id_inventario,
-                    s.nombre AS nombre_sucursal,
-                    p.nombre AS nombre_producto,
+                    i.id_sucursal,
+                    i.id_producto,
                     i.cantidad,
                     i.fecha,
                     i.precio_base
                 FROM
                     Inventario i
-                JOIN
-                    Sucursal s ON i.id_sucursal = s.id
-                JOIN
-                    Producto p ON i.id_producto = p.id;
-
         '''
         puntero.execute(sql)
-        self.conexion.commit()
+
 
     def AgregarDatosVista(self,id_suc, id_pro, cantidad, precio, fecha):
         # Inserción en la vista temporal
         puntero = self.conexion.cursor()
         sql = '''
-            INSERT INTO vista_temporal (id_factura, nombre_sucursal, id_cliente, fecha, precio_total)
+            INSERT INTO vista_temporal (id_sucursal, id_producto, cantidad, fecha, precio_base)
             VALUES (%s, %s, %s, %s, %s);
         '''
-        puntero.execute(sql, (id_suc, id_pro, cantidad, precio, fecha))
+        puntero.execute(sql, (id_suc, id_pro, cantidad, fecha, precio))
+
+    def pasar_datos(self):
+        puntero = self.conexion.cursor()
+        sql = '''INSERT INTO Inventario (id_sucursal, id_producto, cantidad, fecha, precio_base)
+                    SELECT
+                        vti.id_sucursal,
+                        vti.id_producto,
+                        vti.cantidad,
+                        vti.fecha,
+                        vti.precio_base
+                    FROM
+                        vista_temporal vti
+                        '''
+        puntero.execute(sql)
+
+    def eliminarVista(self):
+        puntero = self.conexion.cursor()
+        sql2 = 'DROP VIEW IF EXISTS vista_temporal'
+        puntero.execute(sql2)
         self.conexion.commit()
+
+    def dameVista(self):
+        puntero = self.conexion.cursor()
+        sql='select * from vista_temporal'
+        puntero.execute(sql)
+        vista=puntero.fetchall()
+        return vista
+
 

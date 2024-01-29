@@ -140,6 +140,9 @@ class ControladorPrincipal(QMainWindow):
         self.ui.groupBox_8.setEnabled(False)
         self.ui.groupBox_9.setEnabled(False)
     def pagabastecer(self):
+        abastecer=CtrlAbastecer(self.conexion)
+        abastecer.eliminarVista()
+        abastecer.crearVistaTemporal()
         self.ui.btn_agregarAbast.setEnabled(False)
         self.ui.btn_quitarAbast.setEnabled(False)
         self.ui.stackedWidget.setCurrentIndex(2)
@@ -385,7 +388,8 @@ class ControladorPrincipal(QMainWindow):
         datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
         self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tablaProductos)
     def cargarTablaInventario(self):
-        self.cargarDatosTabla(self.lista,['ID sucursal', 'ID Producto','Cantidad','Precio Base'],self.ui.tabla_inventario)
+        abastecer=CtrlAbastecer(self.conexion)
+        self.cargarDatosTabla(abastecer.dameVista(),['ID sucursal', 'ID Producto','Cantidad','Precio Base'],self.ui.tabla_inventario)
     def limpiarAbastecimiento(self):
         self.ui.txt_idproductoabastecimiento_2.setText("")
         self.ui.lblDescripcion.setText("")
@@ -416,7 +420,10 @@ class ControladorPrincipal(QMainWindow):
         cantidad = self.ui.box_cantidadabast.text()
         precio = self.ui.doubleSpinBoxAbast.value()
         fecha = datetime.now()
-        self.lista.append((id_suc, id_pro, cantidad, precio, fecha))
+        #self.lista.append((id_suc, id_pro, cantidad, precio, fecha))
+        abastecer=CtrlAbastecer(self.conexion)
+        abastecer.agregarDatosVista(id_suc, id_pro, cantidad, precio, fecha)
+
         self.cargarTablaInventario()
         self.limpiarAbastecimiento()
         pass
@@ -426,19 +433,21 @@ class ControladorPrincipal(QMainWindow):
         self.limpiarAbastecimiento()
     def Abastecer(self):
         abastecer=CtrlAbastecer(self.conexion)
-        abastecer.vaciarTablaNueva()
-        for datos in self.lista:
-            abastecer.guardarAbastecer(datos)
+        #abastecer.vaciarTablaNueva()
+        #for datos in self.lista:
+            #abastecer.guardarAbastecer(datos)
 
-        datosInventario=abastecer.cargarDatosAbastecimiento()
+        #datosInventario=abastecer.cargarDatosAbastecimiento()
 
-        for datosNuevos in datosInventario:
-            abastecer.insertarDatosTablaNueva(datosNuevos)
-
+        #for datosNuevos in datosInventario:
+         #   abastecer.insertarDatosTablaNueva(datosNuevos)
+        abastecer.agregarDatosAInventario()
+        abastecer.crearVistaTemporal()
+        abastecer.dameVista()
         QMessageBox.information(self, "Registro", "Abastecimiento realizado con éxito!")
         self.limpiarAbastecimiento()
-        self.lista.clear()
-        self.cargarTablaInventario()
+        #self.lista.clear()
+        self.ui.tabla_inventario.clearContents()
 
 
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------

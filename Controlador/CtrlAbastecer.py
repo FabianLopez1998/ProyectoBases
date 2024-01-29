@@ -1,11 +1,14 @@
 from datetime import datetime
 
 from Modelo.DataBaseSql import DataBaseSql
+from conection import DataBaseConection
+
 
 class CtrlAbastecer():
     def __init__(self,conexion):
         self.conexion=conexion
         self.insertar=DataBaseSql(self.conexion)
+        self.conexion2 = DataBaseConection()
 
     def guardarAbastecer(self,datos):
         id_sucursal, id_producto, cantidad, precio_base, fecha=datos
@@ -52,3 +55,19 @@ class CtrlAbastecer():
         except:
             return []
 
+    def crearVistaTemporal(self):
+        self.insertar.crearVistaTemporal()
+    def agregarDatosVista(self, id_suc, id_pro, cantidad, precio, fecha):
+        self.insertar.AgregarDatosVista(id_suc, id_pro, cantidad, precio, fecha)
+
+    def agregarDatosAInventario(self):
+        self.insertar.pasar_datos()
+        self.insertar.eliminarVista()
+
+    def eliminarVista(self):
+        self.insertar.eliminarVista()
+        self.conexion2.EndConection()
+        self.conexion2.StarConection()
+
+    def dameVista(self):
+        return self.insertar.dameVista()
