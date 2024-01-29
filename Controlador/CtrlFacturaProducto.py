@@ -29,3 +29,11 @@ class CtrlFacturaProducto():
     def cargarIdUltimaFactura(self):
         idUltimaFactura=self.insertar.getLastIdFact()
         return idUltimaFactura
+
+
+    def cargarTabla(self, fecha):
+        if fecha == '':
+            ventas = self.insertar.dameTablaVentas()
+        else:
+            ventas = self.insertar.dameTablaPorFechaVentas(fecha)
+        return ventas

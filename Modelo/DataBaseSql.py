@@ -145,7 +145,10 @@ class DataBaseSql():
         elif tabla=='Factura':
             print('insert')
         elif tabla=='Factura_Producto':
-            print('insert')
+            sql='select * from factura_producto'
+            puntero.execute(sql)
+            factura_producto = puntero.fetchall()
+            return factura_producto
         elif tabla=='Inventario':
             sql='select * from inventario'
             puntero.execute(sql)
@@ -305,7 +308,36 @@ class DataBaseSql():
             return 0
         else:
             return ultimoId
-
+    def dameTablaPorFechaVentas(self, fecha):
+        puntero=self.conexion.cursor()
+        sql=('select *'
+             ' from factura_producto '
+             ' where factura_producto.fecha = %s ')
+        puntero.execute(sql,(fecha,))
+        detalles=puntero.fetchone()
+        return detalles
+    def dameTablaVentas(self):
+        puntero=self.conexion.cursor()
+        sql=('''SELECT
+                    f.id AS id_factura,
+                    s.nombre AS nombre_sucursal,
+                    f.id_cliente,
+                    f.fecha,
+                    SUM(fp.cantidad * fp.precio_unitario) AS precio_total
+                FROM
+                    Factura f
+                JOIN
+                    Sucursal s ON f.id_sucursal = s.id
+                JOIN
+                    Factura_Producto fp ON f.id = fp.id_factura
+                GROUP BY
+                    f.id, s.nombre, f.id_cliente, f.fecha
+                ORDER BY
+                    f.fecha DESC;
+            ''')
+        puntero.execute(sql)
+        detalles=puntero.fetchall()
+        return detalles
 #======================================Codigo Abastecimiento==============================================================#
 
     def getTablaProductosPorProveedor(self, fab):
@@ -329,8 +361,48 @@ class DataBaseSql():
         producto=puntero.fetchone()
         return producto
 
-    def crearVistaTemporal(self):
-        pass
+    def dameTablaPorFecha(self, fecha):
+        puntero=self.conexion.cursor()
+        sql=('''SELECT
+             s.nombre AS nombre_sucursal,
+             p.nombre AS nombre_producto,
+             i.cantidad,
+             i.precio_base,
+             i.fecha
+             FROM
+             Inventario i
+             JOIN
+             Sucursal s ON i.id_sucursal = s.id
+             JOIN
+             Producto p ON i.id_producto = p.id
+             WHERE
+             i.fecha = %s
+             ORDER BY
+             i.fecha DESC; 
+             ''')
+        puntero.execute(sql,(fecha,))
+        detalles=puntero.fetchall()
+        return detalles
+    def dameTablaAbastecimientos(self):
+        puntero=self.conexion.cursor()
+        sql=('''SELECT
+                    s.nombre AS nombre_sucursal,
+                    p.nombre AS nombre_producto,
+                    i.cantidad,
+                    i.precio_base,
+                    i.fecha
+                FROM
+                    Inventario i
+                JOIN
+                    Sucursal s ON i.id_sucursal = s.id
+                JOIN
+                    Producto p ON i.id_producto = p.id
+                ORDER BY
+                    i.fecha DESC; 
+            ''')
+        puntero.execute(sql)
+        detalles=puntero.fetchall()
+        return detalles
 
 #============================dar precio base====================================
     def getPriceBase(self,id):

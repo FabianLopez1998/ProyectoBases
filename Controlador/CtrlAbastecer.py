@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Modelo.DataBaseSql import DataBaseSql
 
 class CtrlAbastecer():
@@ -27,3 +29,12 @@ class CtrlAbastecer():
 
     def vaciarTablaNueva(self):
         self.insertar.vaciarTablaNueva()
+
+    def cargarTabla(self, fecha):
+        if fecha == '':
+            abast = self.insertar.dameTablaAbastecimientos()
+        else:
+            fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+            abast = self.insertar.dameTablaPorFecha(fecha_obj)
+        return abast
+

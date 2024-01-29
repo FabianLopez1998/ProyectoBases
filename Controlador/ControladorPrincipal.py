@@ -109,10 +109,15 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_cancelaruser.clicked.connect(self.cancelarCliente)
         self.ui.cbxaprov.stateChanged.connect(self.agregarTablaCliente)
         #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
+
+
         #-------------------------------------- PAGINA7: DETALLES DE VENTAS  -------------------------------------
+        self.ui.btnBuscVenta.clicked.connect(self.cargarDetallesVenta)
+        self.ui.btn_actualizarVent.clicked.connect(self.actualizarCargarVentas)
         #-------------------------------------- PAGINA8: DETALLE DE ABASTECIMIENTOS -------------------------------------
 
-
+        self.ui.btnBuscCompra.clicked.connect(self.cargarDetallesAbastecimiento)
+        self.ui.btn_actualizarAbast.clicked.connect(self.actualizarCargarAbast)
 
     def actualizar_label(self):
         texto_seleccionado = self.ui.comboBox.currentText()
@@ -154,8 +159,10 @@ class ControladorPrincipal(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(5)
     def pagventas(self):
         self.ui.stackedWidget.setCurrentIndex(6)
+        self.cargarDetallesVenta()
     def pagDetallesAbast(self):
         self.ui.stackedWidget.setCurrentIndex(7)
+        self.cargarDetallesAbastecimiento()
     def paginfo(self):
         self.ui.stackedWidget.setCurrentIndex(8)
 
@@ -346,9 +353,7 @@ class ControladorPrincipal(QMainWindow):
         datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
         self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tablaProductos)
     def cargarTablaInventario(self):
-        abastecer=CtrlAbastecer(self.conexion)
-        datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
-        self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tabla_inventario)
+        self.cargarDatosTabla(self.lista,['ID sucursal', 'ID Producto','Cantidad','Precio Base'],self.ui.tabla_inventario)
     def limpiarAbastecimiento(self):
         self.ui.txt_idproductoabastecimiento_2.setText("")
         self.ui.lblDescripcion.setText("")
@@ -381,24 +386,27 @@ class ControladorPrincipal(QMainWindow):
         fecha = datetime.now()
         print('fecha, ',fecha)
         self.lista.append((id_suc, id_pro, cantidad, precio, fecha))
-        self.cargarDatosTabla(self.lista,['ID', 'Descripcion','cantidad','precio'],self.ui.tabla_inventario)
+        self.cargarTablaInventario()
         self.limpiarAbastecimiento()
         pass
     def QuitarAlInventario(self):
         self.lista = [tupla for tupla in self.lista if tupla[1] != self.ui.txt_idproductoabastecimiento_2.text()]
-        self.cargarDatosTabla(self.lista,['ID', 'Descripcion','cantidad','precio'],self.ui.tabla_inventario)
+        self.cargarTablaInventario()
         self.limpiarAbastecimiento()
     def Abastecer(self):
         abastecer=CtrlAbastecer(self.conexion)
         abastecer.vaciarTablaNueva()
         for datos in self.lista:
             abastecer.guardarAbastecer(datos)
+
         datosInventario=abastecer.cargarDatosAbastecimiento()
-        print('datos inventario',datosInventario)
+
         for datosNuevos in datosInventario:
             abastecer.insertarDatosTablaNueva(datosNuevos)
 
         self.limpiarAbastecimiento()
+        self.lista.clear()
+        self.cargarTablaInventario()
 
     def generarFactura(self):
         facturaProducto=CtrlFacturaProducto(self.conexion)
@@ -825,9 +833,27 @@ class ControladorPrincipal(QMainWindow):
 
     #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
     #-------------------------------------- PAGINA7: DETALLES DE VENTAS  -------------------------------------
+
+    def cargarDetallesVenta(self):
+        self.ventas=CtrlFacturaProducto(self.conexion)
+        fecha = self.ui.txtBuscarFecha.text()
+        self.cargarDatosTabla(self.ventas.cargarTabla(fecha), ['ID factura', 'Sucursal', 'Cliente', 'Fecha', 'Precio total'], self.ui.tabla_registroVentas)
+
+    def actualizarCargarVentas(self):
+        self.ui.txtBuscarFecha.setText('')
+        self.cargarDetallesVenta()
+
     #-------------------------------------- PAGINA8: DETALLE DE ABASTECIMIENTOS -------------------------------------
 
+    def cargarDetallesAbastecimiento(self):
+        self.abastecer=CtrlAbastecer(self.conexion)
+        fecha = self.ui.txtBuscarFecha_2.text()
+        print("HOLAA " + fecha)
+        self.cargarDatosTabla(self.abastecer.cargarTabla(fecha), ['Sucursal', 'Producto', 'Cantidad', 'Precio base', 'Fecha'], self.ui.tabla_detalleAbast)
 
+    def actualizarCargarAbast(self):
+        self.ui.txtBuscarFecha_2.setText('')
+        self.cargarDetallesAbastecimiento()
 
 
 
