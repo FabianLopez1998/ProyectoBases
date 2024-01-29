@@ -57,6 +57,7 @@ class ControladorPrincipal(QMainWindow):
         self.ui.txtIdentificacion_3.setEnabled(True)
         self.ui.btnBuscProdFact.clicked.connect(self.buscarProductoFactura)
         self.ui.btn_agregarfact.clicked.connect(self.agregarTablaDetalleFactura)
+        self.ui.btn_nuevaFactura.clicked.connect(self.nuevaFactura)
         self.agregarCabeceraTablaDetalleFactura()
 
         #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
@@ -280,6 +281,27 @@ class ControladorPrincipal(QMainWindow):
         producto=CtrlProducto(self.conexion)
         nombre=producto.cargarNombreProducto(self.ui.txtbuscarProducto2.text())
         self.ui.lblApellidos_2.setText(nombre[0])
+
+
+    def nuevaFactura(self):
+        self.ui.txtIdentificacion_3.setText("")
+        self.ui.lblNombres.setText("")
+        self.ui.lblApellidos.setText("")
+        self.ui.lblDireccion.setText("")
+        self.ui.lblemail.setText("")
+        self.ui.lblTelefono.setText("")
+        self.ui.lblDescuento.setText('')
+        self.ui.lblFecha.setText("")
+        self.ui.lblNumeroFactura_2.setText("")
+        self.ui.txtbuscarProducto2.setText("")
+        self.ui.lblApellidos_2.setText("")
+        self.ui.box_cantidadfact.clear()
+        self.ui.doubleSpinBoxAbast_3.clear()
+        self.agregarCabeceraTablaDetalleFactura()
+        self.ui.tabla_facturafac.item(0, 0).setText("")
+        self.ui.tabla_facturafac.item(1, 0).setText("")
+        self.ui.tabla_facturafac.item(2, 0).setText("")
+        self.ui.tabla_facturafac.item(3, 0).setText("")
 
     #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
 
