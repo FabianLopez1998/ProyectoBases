@@ -7,26 +7,12 @@ class CtrlCategoriaProducto():
 
     def guardarCategoriaProducto(self,datos):
         self.productoId,self.categoriaId=datos
-        self.insertar.Insert('Producto_Categoria',( self.productoId,self.categoriaId))
+        if self.buscarProductoCategoria(datos) == None:
+            self.insertar.Insert('Producto_Categoria',( self.productoId,self.categoriaId))
+            return True
+        else: return False
 
-    # def cargarDatosMarca(self,nombre):
-    #     self.nombre=nombre
-    #     datos=self.insertar.SearchIdTable('Marca',nombre)
-    #     return datos
-    #
-    # def modificarMarca(self,datos):
-    #     self.nombreProveedor,self.nuevoNombreMarca = datos
-    #     self.insertar.Edit('Marca',(self.nombreProveedor,self.nuevoNombreMarca))
-    #
-    # def eliminarMarca(self,nombre):
-    #     self.nombre=nombre
-    #     self.insertar.Delete('Marca',nombre)
-    #
-    # def cargarIdMarca(self,nombre):
-    #     self.nombre=nombre
-    #     idMarca=self.insertar.searchIdAllTables('Marca',nombre)
-    #     return idMarca
-    #
-    # def cargarTablaMarca(self):
-    #     marca=self.insertar.searchAllTables('Marca')
-    #     return marca
+    def buscarProductoCategoria(self, datos):
+        self.productoId,self.categoriaId=datos
+        pro_cat = self.insertar.buscarProducto_Categoria(self.productoId, self.categoriaId)
+        return pro_cat

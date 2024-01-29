@@ -69,13 +69,19 @@ class DataBaseSql():
                  ' where categoria.nombre = %s')
             puntero.execute(sql, (id,))
             idCategoriaPadre=puntero.fetchone()
-            sql2=('select categoria.nombre '
-                  ' from categoria '
-                  ' where categoria.id = %s')
-            puntero.execute(sql2, (idCategoriaPadre,))
-            nombreCategoriaPadre=puntero.fetchone()
+            if idCategoriaPadre[0] is None:
+                print('Se retorna vacio')
+                return ''
+            else:
+                sql2=('select categoria.nombre '
+                      ' from categoria '
+                      ' where categoria.id = %s')
+                puntero.execute(sql2, (idCategoriaPadre,))
+                nombreCategoriaPadre=puntero.fetchone()
+                print('nombreCategoriaPadre',nombreCategoriaPadre)
 
-            return nombreCategoriaPadre
+
+                return nombreCategoriaPadre[0]
 
         elif tabla=='Cliente':
             sql='select * from cliente where id = %s'
@@ -105,7 +111,7 @@ class DataBaseSql():
             sql=('select producto.tamanio, producto.medida as nombreProducto, marca.nombre as nombreMarca '
                  ' from producto '
                  ' join marca on marca.id = producto.id_marca '
-                 ' where producto.nombre = %s ')
+                 ' where producto.nombre = %s')
             puntero.execute(sql,(id,))
             producto=puntero.fetchone()
             return producto
@@ -328,3 +334,35 @@ class DataBaseSql():
     def crearVistaTemporal(self):
         pass
 
+#==================================================Extras=================================
+    def dameProductoMarcaId(self, id, marca):
+        puntero=self.conexion.cursor()
+        sql=('select producto.tamanio, producto.medida as nombreProducto, marca.nombre as nombreMarca '
+             ' from producto '
+             ' join marca on marca.id = producto.id_marca '
+             ' where producto.nombre = %s and marca.id = %s')
+        puntero.execute(sql,(id,marca))
+        producto=puntero.fetchone()
+        return producto
+    def modificarProducto(self, data):
+        puntero=self.conexion.cursor()
+        sql='update Producto set nombre=%s, tamanio=%s, medida=%s, id_marca=%s where id= %s and id_marca = %s'
+        valores=(data[1],data[2],data[3],data[4],data[0], data[4])
+        puntero.execute(sql,valores)
+        print('Datos modificados correctamente')
+    def buscarProducto_Categoria(self, prod, cat):
+        puntero=self.conexion.cursor()
+        sql=('select producto_categoria.id_producto, producto_categoria.id_categoria'
+             ' from producto_categoria '
+             ' where producto_categoria.id_producto = %s and producto_categoria.id_categoria = %s')
+        puntero.execute(sql,(prod,cat))
+        producto=puntero.fetchone()
+        return producto
+
+
+    def clienteConDescuento(self):
+        puntero=self.conexion.cursor()
+        sql='select * from cliente where cliente.es_socio'
+        puntero.execute(sql)
+        cliente=puntero.fetchall()
+        return cliente

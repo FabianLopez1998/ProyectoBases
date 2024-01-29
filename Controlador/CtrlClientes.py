@@ -30,3 +30,7 @@ class CtrlCliente:
     def cargarTablaClientes(self):
         clientes=self.insertar.searchAllTables('Cliente')
         return clientes
+
+    def cargarTablaClientesConDescuento(self):
+        clientes=self.insertar.clienteConDescuento()
+        return clientes

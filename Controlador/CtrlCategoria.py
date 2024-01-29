@@ -7,7 +7,10 @@ class CtrlCategoria():
 
     def guardarCategoria(self,datos):
         self.nombre,self.idCategoria=datos
-        self.insertar.Insert('Categoria',(self.nombre,self.idCategoria))
+        if self.cargarDatosCategoria(self.nombre) == None:
+            self.insertar.Insert('Categoria',(self.nombre,self.idCategoria))
+            return True
+        else: return False
 
     def cargarDatosCategoria(self,nombre):
         self.nombre=nombre
