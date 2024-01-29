@@ -390,9 +390,13 @@ class ControladorPrincipal(QMainWindow):
         self.limpiarAbastecimiento()
     def Abastecer(self):
         abastecer=CtrlAbastecer(self.conexion)
-        print('Abastece ',self.lista)
+        abastecer.vaciarTablaNueva()
         for datos in self.lista:
             abastecer.guardarAbastecer(datos)
+        datosInventario=abastecer.cargarDatosAbastecimiento()
+        print('datos inventario',datosInventario)
+        for datosNuevos in datosInventario:
+            abastecer.insertarDatosTablaNueva(datosNuevos)
 
         self.limpiarAbastecimiento()
 

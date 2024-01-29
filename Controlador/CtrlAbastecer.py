@@ -17,4 +17,13 @@ class CtrlAbastecer():
     def cargarPrecioBase(self,id):
         abastecer=self.insertar.getPriceBase(id)
         return abastecer
+    def cargarDatosAbastecimiento(self):
+        datos=self.insertar.darTablaInventarioAbastecimiento()
+        return datos
 
+    def insertarDatosTablaNueva(self,datos):
+        self.idSucursal,self.idProducto,self.cantidad,self.precio=datos
+        self.insertar.ingresarTablaNueva((self.idSucursal,self.idProducto,self.cantidad,self.precio))
+
+    def vaciarTablaNueva(self):
+        self.insertar.vaciarTablaNueva()

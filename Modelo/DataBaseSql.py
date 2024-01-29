@@ -379,3 +379,26 @@ class DataBaseSql():
         puntero.execute(sql)
         cliente=puntero.fetchall()
         return cliente
+
+    def darTablaInventarioAbastecimiento(self):
+        puntero=self.conexion.cursor()
+        sql=('SELECT id_sucursal,id_producto, '
+             ' SUM(cantidad) AS total_cantidad, '
+             ' MAX(precio_base) AS max_precio '
+             ' FROM Inventario '
+             ' GROUP BY'
+             ' id_sucursal,id_producto')
+        puntero.execute(sql)
+        datos=puntero.fetchall()
+        return datos
+    def ingresarTablaNueva(self,data):
+        puntero=self.conexion.cursor()
+        sql='insert into InventarioFactura(id_sucursal,id_producto,cantidad,precio) values (%s, %s, %s, %s)'
+        puntero.execute(sql,(data[0],data[1],data[2],data[3]))
+        self.conexion.commit()
+
+    def vaciarTablaNueva(self):
+        puntero=self.conexion.cursor()
+        sql='delete from  InventarioFactura'
+        puntero.execute(sql)
+        self.conexion.commit()
