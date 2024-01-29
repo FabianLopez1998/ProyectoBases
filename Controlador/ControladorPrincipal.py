@@ -404,7 +404,6 @@ class ControladorPrincipal(QMainWindow):
         producto=CtrlProducto(self.conexion)
         datosProducto=producto.extraerProductoPorId(nombre)
         if datosProducto!=None:
-            print('datososs: ',datosProducto)
             self.ui.lblDescripcion.setText(datosProducto[0])
             self.ui.lblMarca.setText(datosProducto[1])
             self.ui.lblTamanio.setText(datosProducto[2])
@@ -431,14 +430,9 @@ class ControladorPrincipal(QMainWindow):
         self.limpiarAbastecimiento()
     def Abastecer(self):
         abastecer=CtrlAbastecer(self.conexion)
-        abastecer.vaciarTablaNueva()
         for datos in self.lista:
             abastecer.guardarAbastecer(datos)
-
-        datosInventario=abastecer.cargarDatosAbastecimiento()
-
-        for datosNuevos in datosInventario:
-            abastecer.insertarDatosTablaNueva(datosNuevos)
+            abastecer.insertarDatosTablaNueva(datos)
 
         QMessageBox.information(self, "Registro", "Abastecimiento realizado con éxito!")
         self.limpiarAbastecimiento()

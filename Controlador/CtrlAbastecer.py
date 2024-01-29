@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from Modelo.DataBaseSql import DataBaseSql
+from conection import DataBaseConection
+
 
 class CtrlAbastecer():
     def __init__(self,conexion):
@@ -24,7 +26,7 @@ class CtrlAbastecer():
         return datos
 
     def insertarDatosTablaNueva(self,datos):
-        self.idSucursal,self.idProducto,self.cantidad,self.precio=datos
+        self.idSucursal,self.idProducto,self.cantidad,self.precio,self.fecha=datos
         self.insertar.ingresarTablaNueva((self.idSucursal,self.idProducto,self.cantidad,self.precio))
 
     def vaciarTablaNueva(self):

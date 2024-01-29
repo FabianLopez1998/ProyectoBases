@@ -481,8 +481,17 @@ class DataBaseSql():
         return datos
     def ingresarTablaNueva(self,data):
         puntero=self.conexion.cursor()
-        sql='insert into InventarioFactura(id_sucursal,id_producto,cantidad,precio) values (%s, %s, %s, %s)'
-        puntero.execute(sql,(data[0],data[1],data[2],data[3]))
+        sql='select cantidad from inventariofactura where id_sucursal = %s and id_producto = %s'
+        puntero.execute(sql,(data[0],data[1]))
+        resultado=puntero.fetchone()
+        if resultado is None:
+            sql='insert into InventarioFactura(id_sucursal,id_producto,cantidad,precio) values (%s, %s, %s, %s)'
+            puntero.execute(sql,(data[0],data[1],data[2],data[3]))
+        else:
+            cantidadSumada=str(int(resultado[0])+int(data[2]))
+            sql2='update  InventarioFactura set cantidad=%s where id_sucursal = %s and id_producto = %s'
+            valores=(cantidadSumada,data[0],data[1])
+            puntero.execute(sql2,valores)
         self.conexion.commit()
 
     def vaciarTablaNueva(self):
