@@ -421,6 +421,11 @@ class ControladorPrincipal(QMainWindow):
         for data in nuevaLista:
             facturaProducto.guardarFacturaProducto(data)
 
+        #restar de nueva Tabla
+        listaTablaNueva=[(tupla[0], tupla[2],idSucursal) for tupla in self.listaTablaFactura]
+        for dataNueva in listaTablaNueva:
+            facturaProducto.restarCantidadProducto(dataNueva)
+
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
 

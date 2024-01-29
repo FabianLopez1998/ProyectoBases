@@ -474,3 +474,19 @@ class DataBaseSql():
         sql='delete from  InventarioFactura'
         puntero.execute(sql)
         self.conexion.commit()
+
+    def restarCantidadNuevaTabla(self,datos):
+        puntero=self.conexion.cursor()
+        sql=('SELECT cantidad '
+             ' FROM InventarioFactura '
+             ' WHERE id_sucursal = %s AND id_producto = %s')
+        puntero.execute(sql,(datos[2],datos[0]))
+        cantidadActual=puntero.fetchone()
+        cantidadARestar=datos[1]
+        cantidadRestada=str(int(cantidadActual[0])-int(cantidadARestar))
+        sql2=('update inventarioFactura '
+              ' set cantidad = %s'
+              'where id_sucursal = %s and id_producto = %s')
+        puntero.execute(sql2,(cantidadRestada,datos[2],datos[0]))
+
+        self.conexion.commit()

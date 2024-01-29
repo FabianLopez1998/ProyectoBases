@@ -73,3 +73,10 @@ cantidad integer not null,
 precio_unitario decimal(10,2) not null,
 primary key(id_producto,id_factura)
 );
+
+create table InventarioFactura(
+id_sucursal integer references Sucursal(id) on delete cascade,
+id_producto integer references Producto(id) on delete cascade,
+cantidad integer,
+precio decimal(10,2)
+);

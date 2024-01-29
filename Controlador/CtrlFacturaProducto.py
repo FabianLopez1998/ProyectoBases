@@ -37,3 +37,7 @@ class CtrlFacturaProducto():
         else:
             ventas = self.insertar.dameTablaPorFechaVentas(fecha)
         return ventas
+
+    def restarCantidadProducto(self,datos):
+        self.idProducto,self.cantidad,self.idSucursal=datos
+        self.insertar.restarCantidadNuevaTabla((self.idProducto,self.cantidad,self.idSucursal))
