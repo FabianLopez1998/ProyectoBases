@@ -45,7 +45,7 @@ es_socio boolean not null
 );
 
 create table Factura (
-id integer primary key,
+id serial primary key,
 fecha date not null,
 id_sucursal integer references Sucursal(id) on delete cascade,
 id_cliente integer references Cliente(id) on delete cascade
@@ -56,6 +56,7 @@ id serial primary key,
 id_sucursal integer references Sucursal(id) on delete cascade,
 id_producto integer references Producto(id) on delete cascade,
 cantidad integer not null,
+fecha date,
 precio_base decimal (10,2) not null
 );
 

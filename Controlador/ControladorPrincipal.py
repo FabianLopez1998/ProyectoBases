@@ -8,6 +8,7 @@ from Controlador.CtrlCategoria import CtrlCategoria
 from Controlador.CtrlCategoriaProducto import CtrlCategoriaProducto
 from Controlador.CtrlFabricante import CtrlFabricante
 from Controlador.CtrlFactura import CtrlFactura
+from Controlador.CtrlFacturaProducto import CtrlFacturaProducto
 from Controlador.CtrlMarca import CtrlMarca
 from Controlador.CtrlProducto import CtrlProducto
 from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QTableWidget, QMessageBox, QHeaderView
@@ -59,7 +60,10 @@ class ControladorPrincipal(QMainWindow):
         self.ui.txtIdentificacion_3.setEnabled(True)
         self.ui.btnBuscProdFact.clicked.connect(self.buscarProductoFactura)
         self.ui.btn_agregarfact.clicked.connect(self.agregarTablaDetalleFactura)
-        self.agregarCabeceraTablaDetalleFactura()
+        self.ui.btn_quitarAbast_2.clicked.connect(self.QuitarProductoFactura)
+        self.ui.btn_pagarfac.clicked.connect(self.generarFactura)
+        self.listaTablaFactura = []
+        #self.agregarCabeceraTablaDetalleFactura()
 
         #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
         self.ui.btnBuscProdAbast.clicked.connect(self.buscarProductoAbastecimiento)
@@ -224,26 +228,51 @@ class ControladorPrincipal(QMainWindow):
 
     #-------------------------------------- PAGINA2: FACTURACION  -------------------------------------
     def agregarTablaDetalleFactura(self):
-        datosTabla=[]
         codigo=self.ui.txtbuscarProducto2.text()
-        nombre=self.ui.lblApellidos_2.text()
+        descripcion=self.ui.lblApellidos_2.text()
         cantidad=self.ui.box_cantidadfact.value()
-        precioU=self.ui.doubleSpinBoxAbast_3.value()
-        precioT=str(float(cantidad)*float(precioU))
-        nuevaFila=(codigo,nombre,str(cantidad),str(precioU),precioT)
-        datosTabla.append(nuevaFila)
-        #self.ui.tabla_productosfac.setRowCount(0)
-        for fila in datosTabla:
-            fila_actual = self.ui.tabla_productosfac.rowCount()
-            self.ui.tabla_productosfac.insertRow(fila_actual)
-            # Agregar elementos a la fila
-            for col, valor in enumerate(fila):
-                item = QTableWidgetItem(valor)
-                self.ui.tabla_productosfac.setItem(fila_actual, col, item)
-    def agregarCabeceraTablaDetalleFactura(self):
-        self.ui.tabla_productosfac.setRowCount(0)
-        self.ui.tabla_productosfac.setColumnCount(5)
-        self.ui.tabla_productosfac.setHorizontalHeaderLabels(['Codigo','Nombre','Cantidad','Precio U','Precio T'])
+        precioUnitario=self.ui.doubleSpinBoxAbast_3.value()
+        precioTotal=str(float(cantidad) * float(precioUnitario))
+        self.listaTablaFactura.append((codigo, descripcion, cantidad, precioUnitario,precioTotal))
+        self.cargarDatosTabla(self.listaTablaFactura,['Codigo', 'Descripcion','Cantidad',
+                                          'Precio Uni','Precio Tot'],self.ui.tabla_productosfac)
+        self.calcularCostos(True,False)
+    def calcularCostos(self,suma,resta):
+        self.suma=suma
+        self.resta=resta
+        subtotal=0
+        iva=0
+        if self.suma:
+            for tupla in self.listaTablaFactura:
+                subtotal+=float(tupla[-1])
+            iva=0.12*(subtotal)
+            ivaItem=QTableWidgetItem(str(round(iva,2)))
+
+            subTotalItem=QTableWidgetItem(str(subtotal))
+
+            self.ui.tabla_facturafac.setItem(0,0,subTotalItem)
+            self.ui.tabla_facturafac.setItem(1,0,ivaItem)
+
+            if self.ui.lblDescuento.text() == 'Si':
+                descuento=0.15*(subtotal)
+                descuentoItem=QTableWidgetItem(str(descuento))
+                self.ui.tabla_facturafac.setItem(2,0,descuentoItem)
+                total=subtotal+iva-descuento
+                totalItem=QTableWidgetItem(str(round(total,2)))
+                self.ui.tabla_facturafac.setItem(3,0,totalItem)
+            else:
+                descuentoItem=QTableWidgetItem('0')
+                self.ui.tabla_facturafac.setItem(2,0,descuentoItem)
+                total=subtotal+iva
+                totalItem=QTableWidgetItem(str(round(total,2)))
+                self.ui.tabla_facturafac.setItem(3,0,totalItem)
+        if self.resta:
+            None
+    def QuitarProductoFactura(self):
+        self.listaTablaFactura = [tupla for tupla in self.listaTablaFactura if tupla[0] != self.ui.txtbuscarProducto2.text()]
+        self.cargarDatosTabla(self.listaTablaFactura,['Codigo', 'Descripcion','Cantidad',
+                                          'Precio Uni','Precio Tot'],self.ui.tabla_productosfac)
+        self.calcularCostos(True,False )
 
     def cargarIdFactura(self):
         self.ui.lblNumeroFactura_2.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
@@ -270,8 +299,12 @@ class ControladorPrincipal(QMainWindow):
             self.ui.lblDescuento.setText('No')
 
     def buscarProductoFactura(self):
+        abastecer=CtrlAbastecer(self.conexion)
         producto=CtrlProducto(self.conexion)
+
         nombre=producto.cargarNombreProducto(self.ui.txtbuscarProducto2.text())
+        precioBase=abastecer.cargarPrecioBase(self.ui.txtbuscarProducto2.text())
+        self.ui.doubleSpinBoxAbast_3.setValue(precioBase[0])
         self.ui.lblApellidos_2.setText(nombre[0])
     #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
 
@@ -329,11 +362,23 @@ class ControladorPrincipal(QMainWindow):
 
     def Abastecer(self):
         abastecer=CtrlAbastecer(self.conexion)
+        print('Abastece ',self.lista)
         for datos in self.lista:
-            abastecer.guardarAbastecer(datos)
+             abastecer.guardarAbastecer(datos)
         self.limpiarAbastecimiento()
 
-
+    def generarFactura(self):
+        facturaProducto=CtrlFacturaProducto(self.conexion)
+        factura=CtrlFactura(self.conexion)
+        sucursal=CtrlSucursal(self.conexion)
+        fecha=self.ui.lblFecha.text()
+        idSucursal=sucursal.cargarIdSucursal(self.ui.lblSucursal.text())
+        idCliente=self.ui.txtIdentificacion_3.text()
+        datos=(fecha,idSucursal,idCliente)
+        factura.guardarFactura(datos)
+        nuevaLista=[(tupla[0], tupla[2], tupla[3],self.ui.lblNumeroFactura_2.text()) for tupla in self.listaTablaFactura]
+        for data in nuevaLista:
+            facturaProducto.guardarFacturaProducto(data)
 
 
 
@@ -457,7 +502,7 @@ class ControladorPrincipal(QMainWindow):
             categoria=CtrlCategoria(self.conexion)
             datosCategoria=categoria.cargarDatosCategoria(nombre)
             print(datosCategoria)
-            self.ui.combCatPadre.setCurrentText(datosCategoria[0])
+            self.ui.combCatPadre.setCurrentText(datosCategoria)
             self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat,
                                self.ui.btnEditCat, self.ui.btnElimCat, True)
         else:

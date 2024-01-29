@@ -26,9 +26,13 @@ class DataBaseSql():
             puntero.execute(sql, (data[0], data[1]))
             print('objeto insertado correctamente')
         elif tabla=='Factura':
-            print('insert')
+            sql='insert into Factura(fecha, id_sucursal, id_cliente) values ( %s, %s, %s)'
+            puntero.execute(sql, (data[0], data[1],data[2]))
+            print('objeto insertado correctamente')
         elif tabla=='Factura_Producto':
-            print('insert')
+            sql='insert into factura_producto(id_producto, id_factura, cantidad,precio_unitario) values ( %s, %s, %s, %s)'
+            puntero.execute(sql, (data[0], data[3],data[1],data[2]))
+            print('objeto insertado correctamente')
         elif tabla=='Inventario':
             sql=('insert into Inventario(id_sucursal, id_producto, cantidad, precio_base, fecha) '
                  'values ( %s, %s,%s, %s,%s)')
@@ -69,13 +73,15 @@ class DataBaseSql():
                  ' where categoria.nombre = %s')
             puntero.execute(sql, (id,))
             idCategoriaPadre=puntero.fetchone()
-            sql2=('select categoria.nombre '
-                  ' from categoria '
-                  ' where categoria.id = %s')
-            puntero.execute(sql2, (idCategoriaPadre,))
-            nombreCategoriaPadre=puntero.fetchone()
-
-            return nombreCategoriaPadre
+            if idCategoriaPadre[0] is None:
+                return ''
+            else:
+                sql2=('select categoria.nombre '
+                      ' from categoria '
+                      ' where categoria.id = %s')
+                puntero.execute(sql2, (idCategoriaPadre,))
+                nombreCategoriaPadre=puntero.fetchone()
+                return nombreCategoriaPadre[0]
 
         elif tabla=='Cliente':
             sql='select * from cliente where id = %s'
@@ -328,3 +334,18 @@ class DataBaseSql():
     def crearVistaTemporal(self):
         pass
 
+#============================dar precio base====================================
+    def getPriceBase(self,id):
+        puntero=self.conexion.cursor()
+        sql=('SELECT i.precio_base '
+             ' FROM Inventario i '
+             ' JOIN ( '
+             ' SELECT id_producto, MAX(fecha) AS max_fecha '
+             ' FROM Inventario '
+             ' GROUP BY id_producto '
+             ' ) subquery ON i.id_producto = subquery.id_producto AND i.fecha = subquery.max_fecha '
+             ' WHERE i.id_producto = %s '
+             ' limit 1 ')
+        puntero.execute(sql,id)
+        precioBase=puntero.fetchone()
+        return precioBase

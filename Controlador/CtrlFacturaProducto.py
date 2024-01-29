@@ -1,13 +1,14 @@
 from Modelo.DataBaseSql import DataBaseSql
 
-class CtrlFactura():
+class CtrlFacturaProducto():
     def __init__(self,conexion):
         self.conexion=conexion
         self.insertar=DataBaseSql(self.conexion)
 
-    def guardarFactura(self,datos):
-        self.fecha,self.idSucursal,self.idCliente=datos
-        self.insertar.Insert('Factura',(self.fecha,self.idSucursal,self.idCliente))
+    def guardarFacturaProducto(self,datos):
+        self.idProducto,self.cantidad,self.precioUnitario,self.idFactura=datos
+        self.insertar.Insert('Factura_Producto',(self.idProducto,self.cantidad,
+                                                 self.precioUnitario,self.idFactura))
 
     # def cargarDatosProducto(self,nombre):
     #     self.nombre=nombre
