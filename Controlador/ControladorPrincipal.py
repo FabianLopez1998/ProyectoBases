@@ -382,6 +382,8 @@ class ControladorPrincipal(QMainWindow):
         self.ui.groupBox_8.setEnabled(False)
         self.ui.groupBox_9.setEnabled(False)
 
+        self.cargarIdFactura()
+
 
 #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
 
