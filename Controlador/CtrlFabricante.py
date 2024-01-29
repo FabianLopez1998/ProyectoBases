@@ -7,7 +7,10 @@ class CtrlFabricante():
 
     def guardarFabricante(self,datos):
         self.nombre,self.direccion=datos
-        self.insertar.Insert('Fabricante',(self.nombre,self.direccion))
+        if self.cargarDatosFabricante(self.nombre) == None:
+            self.insertar.Insert('Fabricante',(self.nombre,self.direccion))
+            return True
+        else: return False
 
     def cargarDatosFabricante(self,nombre):
         self.nombre=nombre

@@ -7,7 +7,10 @@ class CtrlMarca():
 
     def guardarMarca(self,datos):
         self.nombre,self.idFabricante=datos
-        self.insertar.Insert('Marca',(self.nombre,self.idFabricante))
+        if self.cargarDatosMarca(self.nombre) == None:
+            self.insertar.Insert('Marca',(self.nombre,self.idFabricante))
+            return True
+        else: return False
 
     def cargarDatosMarca(self,nombre):
         self.nombre=nombre

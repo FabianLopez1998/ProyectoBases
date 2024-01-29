@@ -43,8 +43,6 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_info.clicked.connect(self.paginfo)
 
 
-
-
         #-------------------------------------- PAGINA1: PAGINA PRINCIPAL Y MANTENIMIENTO DE SUCURSAL -------------------------------------
 
         self.agregarTablaSucursal()
@@ -56,7 +54,7 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btnBuscSuc.clicked.connect(self.buscarSucursal)
 
         #-------------------------------------- PAGINA2: FACTURACION  -------------------------------------
-        self.ui.btnBuscUserFact.clicked.connect(self.detallesClliente)
+        self.ui.btnBuscUserFact.clicked.connect(self.detallesCliente)
         self.ui.txtIdentificacion_3.setEnabled(True)
         self.ui.btnBuscProdFact.clicked.connect(self.buscarProductoFactura)
         self.ui.btn_agregarfact.clicked.connect(self.agregarTablaDetalleFactura)
@@ -64,6 +62,8 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_pagarfac.clicked.connect(self.generarFactura)
         self.listaTablaFactura = []
         #self.agregarCabeceraTablaDetalleFactura()
+        self.ui.btn_nuevaFactura.clicked.connect(self.nuevaFactura)
+
 
         #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
         self.ui.btnBuscProdAbast.clicked.connect(self.buscarProductoAbastecimiento)
@@ -107,7 +107,7 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_modificaruser.clicked.connect(self.editarCliente)
         self.ui.btn_eliminaruser.clicked.connect(self.eliminarCliente)
         self.ui.btn_cancelaruser.clicked.connect(self.cancelarCliente)
-
+        self.ui.cbxaprov.stateChanged.connect(self.agregarTablaCliente)
         #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
         #-------------------------------------- PAGINA7: DETALLES DE VENTAS  -------------------------------------
         #-------------------------------------- PAGINA8: DETALLE DE ABASTECIMIENTOS -------------------------------------
@@ -284,19 +284,28 @@ class ControladorPrincipal(QMainWindow):
         fecha_actual = datetime.now().date()
         self.ui.lblFecha.setText(str(fecha_actual))
 
-    def detallesClliente(self):
+    def detallesCliente(self):
         id=self.ui.txtIdentificacion_3.text()
+        if not id.isdigit():
+            QMessageBox.warning(self, "ERROR", "Ingrese un valor correcto!")
+            return
         self.cliente=CtrlCliente(self.conexion)
         datosCliente=self.cliente.cargarDatosCliente(id)
-        self.ui.lblNombres.setText(datosCliente[1])
-        self.ui.lblApellidos.setText(datosCliente[2])
-        self.ui.lblDireccion.setText(datosCliente[3])
-        self.ui.lblemail.setText(datosCliente[4])
-        self.ui.lblTelefono.setText(datosCliente[5])
-        if datosCliente[6]:
-            self.ui.lblDescuento.setText('Si')
-        elif datosCliente[6]==False:
-            self.ui.lblDescuento.setText('No')
+        if datosCliente!=None:
+            self.ui.lblNombres.setText(datosCliente[1])
+            self.ui.lblApellidos.setText(datosCliente[2])
+            self.ui.lblDireccion.setText(datosCliente[3])
+            self.ui.lblemail.setText(datosCliente[4])
+            self.ui.lblTelefono.setText(datosCliente[5])
+            if datosCliente[6]:
+                self.ui.lblDescuento.setText('Si')
+            elif datosCliente[6]==False:
+                self.ui.lblDescuento.setText('No')
+        else:
+            respuesta = QMessageBox.question(None, 'Advertencia', '¿El cliente no existe, desea agregar un nuevo cliente?', QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            if respuesta == QMessageBox.StandardButton.Yes:
+                self.ui.stackedWidget.setCurrentIndex(4)
+
 
     def buscarProductoFactura(self):
         abastecer=CtrlAbastecer(self.conexion)
@@ -306,18 +315,40 @@ class ControladorPrincipal(QMainWindow):
         precioBase=abastecer.cargarPrecioBase(self.ui.txtbuscarProducto2.text())
         self.ui.doubleSpinBoxAbast_3.setValue(precioBase[0])
         self.ui.lblApellidos_2.setText(nombre[0])
-    #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
+
+
+    def nuevaFactura(self):
+        self.ui.txtIdentificacion_3.setText("")
+        self.ui.lblNombres.setText("")
+        self.ui.lblApellidos.setText("")
+        self.ui.lblDireccion.setText("")
+        self.ui.lblemail.setText("")
+        self.ui.lblTelefono.setText("")
+        self.ui.lblDescuento.setText('')
+        self.ui.txtbuscarProducto2.setText("")
+        self.ui.lblApellidos_2.setText("")
+        self.ui.box_cantidadfact.clear()
+        self.ui.doubleSpinBoxAbast_3.clear()
+        # self.ui.tabla_facturafac.item(0, 0).setText("")
+        # self.ui.tabla_facturafac.item(1, 0).setText("")
+        # self.ui.tabla_facturafac.item(2, 0).setText("")
+        # self.ui.tabla_facturafac.item(3, 0).setText("")
+        self.ui.tabla_productosfac.setRowCount(0)
+        self.ui.tabla_productosfac.setColumnCount(5)
+        self.ui.tabla_productosfac.setHorizontalHeaderLabels(['Codigo','Nombre','Cantidad','Precio U','Precio T'])
+
+
+
+#-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
 
     def cargarTablaProductosAbastecimieto(self):
         abastecer=CtrlAbastecer(self.conexion)
         datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
         self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tablaProductos)
-
     def cargarTablaInventario(self):
         abastecer=CtrlAbastecer(self.conexion)
         datos = abastecer.cargarTablaProductosProveedor(self.ui.comboProvAbast.currentText())
         self.cargarDatosTabla(datos,['ID producto', 'Descripción','Marca','Tamaño', 'Medida'],self.ui.tabla_inventario)
-
     def limpiarAbastecimiento(self):
         self.ui.txt_idproductoabastecimiento_2.setText("")
         self.ui.lblDescripcion.setText("")
@@ -327,10 +358,10 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_agregarAbast.setEnabled(False)
         self.ui.btn_quitarAbast.setEnabled(False)
     def buscarProductoAbastecimiento(self):
-        if True:
-            nombre=self.ui.txt_idproductoabastecimiento_2.text()
-            producto=CtrlProducto(self.conexion)
-            datosProducto=producto.extraerProductoPorId(nombre)
+        nombre=self.ui.txt_idproductoabastecimiento_2.text()
+        producto=CtrlProducto(self.conexion)
+        datosProducto=producto.extraerProductoPorId(nombre)
+        if datosProducto!=None:
             print('datososs: ',datosProducto)
             self.ui.lblDescripcion.setText(datosProducto[0])
             self.ui.lblMarca.setText(datosProducto[1])
@@ -340,8 +371,6 @@ class ControladorPrincipal(QMainWindow):
             self.ui.btn_quitarAbast.setEnabled(True)
         else:
             QMessageBox.warning(self, "ERROR", "No existe el Producto!")
-
-
     def AgregarAlInventario(self):
         sucursal=CtrlSucursal(self.conexion)
         suc = sucursal.cargarDatosSucursal(self.ui.lblSucursal.text())
@@ -349,7 +378,8 @@ class ControladorPrincipal(QMainWindow):
         id_pro = self.ui.txt_idproductoabastecimiento_2.text()
         cantidad = self.ui.box_cantidadabast.text()
         precio = self.ui.doubleSpinBoxAbast.value()
-        fecha = datetime.now().date()
+        fecha = datetime.now()
+        print('fecha, ',fecha)
         self.lista.append((id_suc, id_pro, cantidad, precio, fecha))
         self.cargarDatosTabla(self.lista,['ID', 'Descripcion','cantidad','precio'],self.ui.tabla_inventario)
         self.limpiarAbastecimiento()
@@ -358,13 +388,12 @@ class ControladorPrincipal(QMainWindow):
         self.lista = [tupla for tupla in self.lista if tupla[1] != self.ui.txt_idproductoabastecimiento_2.text()]
         self.cargarDatosTabla(self.lista,['ID', 'Descripcion','cantidad','precio'],self.ui.tabla_inventario)
         self.limpiarAbastecimiento()
-
-
     def Abastecer(self):
         abastecer=CtrlAbastecer(self.conexion)
         print('Abastece ',self.lista)
         for datos in self.lista:
-             abastecer.guardarAbastecer(datos)
+            abastecer.guardarAbastecer(datos)
+
         self.limpiarAbastecimiento()
 
     def generarFactura(self):
@@ -380,11 +409,6 @@ class ControladorPrincipal(QMainWindow):
         for data in nuevaLista:
             facturaProducto.guardarFacturaProducto(data)
 
-
-
-
-
-
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
 
@@ -394,22 +418,26 @@ class ControladorPrincipal(QMainWindow):
         nombre=self.ui.txtNomFabri.text()
         fabricante=CtrlFabricante(self.conexion)
         datosFabricante=fabricante.cargarDatosFabricante(nombre)
-        self.ui.txtDirFabri.setText(datosFabricante[2])
-        self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri,
-                           self.ui.btnElimFabri, True)
+        if datosFabricante != None:
+            self.ui.txtDirFabri.setText(datosFabricante[2])
+            self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri,
+                               self.ui.btnElimFabri, True)
+        else:
+            QMessageBox.warning(self, "ERROR", "No existe el fabricante!")
     def agregarFabricante(self):
         nombre=self.ui.txtNomFabri.text()
         direccion=self.ui.txtDirFabri.text()
         if nombre!='' and direccion != '':
             fabricanteDatos=(nombre,direccion)
             self.fabricante=CtrlFabricante(self.conexion)
-            self.fabricante.guardarFabricante(fabricanteDatos)
-            QMessageBox.information(self, "Registro", "Fabricante agregada con éxito!")
-            self.cancelarFabricante()
-            pass
-        else:
-            QMessageBox.information(self, "Fabricante", "!")
+            if self.fabricante.guardarFabricante(fabricanteDatos):
+                QMessageBox.information(self, "Registro", "Fabricante agregado con éxito!")
+                self.cancelarFabricante()
+            else:
+                QMessageBox.warning(self, "ERROR", "Ya existe un fabricante con ese nombre!")
 
+        else:
+            QMessageBox.information(self, "Fabricante", "Llene todos los campos!")
     def editarFabricante(self):
         nombre=self.ui.txtNomFabri.text()
         direccion=self.ui.txtDirFabri.text()
@@ -418,28 +446,31 @@ class ControladorPrincipal(QMainWindow):
             idFabricante=self.fabricante.cargarIdFabricante(self.variableGlobal)
             datos=(idFabricante,nombre,direccion)
             self.fabricante.modificarFabricante(datos)
-            QMessageBox.information(self, "Registro", "Fabricante modificada con éxito!")
+            QMessageBox.information(self, "Registro", "Fabricante modificado con éxito!")
             self.cancelarFabricante()
             self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri,
                                self.ui.btnEditFabri, self.ui.btnElimFabri,False)
-            pass
+
         else:
             QMessageBox.information(self, "Fabricante", "!")
-
     def eliminarFabricante(self):
         if True:
             nombre=self.ui.txtNomFabri.text()
             self.fabricante=CtrlFabricante(self.conexion)
             self.fabricante.eliminarFabricante(nombre)
-            QMessageBox.information(self, "Registro", "Fabricante eliminada con éxito!")
+            QMessageBox.information(self, "Registro", "Fabricante eliminado con éxito!")
             self.cancelarFabricante()
             self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri,
                                self.ui.btnEditFabri, self.ui.btnElimFabri, False)
             pass
         else:
             QMessageBox.information(self, "Fabricante", "!")
-
     def cancelarFabricante(self):
+        self.cargarComboFabricante(self.ui.combFabric_Marca)
+        self.cargarComboCategoria()
+        self.cargarComboMarca()
+        self.cargarComboCategoriaProducto()
+        self.cargarComboProductos()
         self.ui.txtNomFabri.setText("")
         self.ui.txtDirFabri.setText("")
         self.manejoBotones(self.ui.btnBuscFabri, self.ui.btnAgrFabri, self.ui.btnEditFabri, self.ui.btnElimFabri,False)
@@ -452,21 +483,26 @@ class ControladorPrincipal(QMainWindow):
         nombre=self.ui.txtNomMarca.text()
         marca=CtrlMarca(self.conexion)
         datosMarca=marca.cargarDatosMarca(nombre)
-        self.ui.combFabric_Marca.setCurrentText(datosMarca[1])
-        self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
-                           self.ui.btnEditMarca, self.ui.btnElimMarca, True)
-
+        if datosMarca!=None:
+            self.ui.combFabric_Marca.setCurrentText(datosMarca[1])
+            self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
+                               self.ui.btnEditMarca, self.ui.btnElimMarca, True)
+        else:
+            QMessageBox.warning(self, "ERROR", "No existe la marca!")
     def agregarMarca(self):
         fabricante=CtrlFabricante(self.conexion)
         marca=CtrlMarca(self.conexion)
         nombre=self.ui.txtNomMarca.text()
-        idFabricante=fabricante.cargarIdFabricante(self.ui.combFabric_Marca.currentText())
-        marcaDatos=(nombre,idFabricante)
-        marca.guardarMarca(marcaDatos)
-        self.cancelarMarca()
-        QMessageBox.information(self, "Registro", "Marca agregada con éxito!")
-        pass
-
+        if nombre!='':
+            idFabricante=fabricante.cargarIdFabricante(self.ui.combFabric_Marca.currentText())
+            marcaDatos=(nombre,idFabricante)
+            if marca.guardarMarca(marcaDatos):
+                self.cancelarMarca()
+                QMessageBox.information(self, "Registro", "Marca agregada con éxito!")
+            else:
+                QMessageBox.warning(self, "ERROR", "Ya existe una marca con ese nombre!")
+        else:
+            QMessageBox.information(self, "Marca", "Llene todos los campos!")
     def editarMarca(self):
         marca=CtrlMarca(self.conexion)
         nuevoNombreMarca=self.ui.txtNomMarca.text()
@@ -477,7 +513,6 @@ class ControladorPrincipal(QMainWindow):
         self.cancelarMarca()
         self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
                            self.ui.btnEditMarca, self.ui.btnElimMarca,False)
-
     def eliminarMarca(self):
         nombre=self.ui.txtNomMarca.text()
         marca=CtrlMarca(self.conexion)
@@ -486,9 +521,12 @@ class ControladorPrincipal(QMainWindow):
         self.cancelarMarca()
         self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
                            self.ui.btnEditMarca, self.ui.btnElimMarca,False)
-
-
     def cancelarMarca(self):
+        self.cargarComboFabricante(self.ui.combFabric_Marca)
+        self.cargarComboCategoria()
+        self.cargarComboMarca()
+        self.cargarComboCategoriaProducto()
+        self.cargarComboProductos()
         self.ui.txtNomMarca.setText("")
         self.manejoBotones(self.ui.btnBuscMarca, self.ui.btnAgrMarca,
                            self.ui.btnEditMarca, self.ui.btnElimMarca,False)
@@ -496,31 +534,32 @@ class ControladorPrincipal(QMainWindow):
     ##CATEGORIA
 
     def buscarCategoria(self):
-        if True:
-            self.variableGlobal=self.ui.lineEditCat.text()
-            nombre=self.ui.lineEditCat.text()
-            categoria=CtrlCategoria(self.conexion)
-            datosCategoria=categoria.cargarDatosCategoria(nombre)
+        self.variableGlobal=self.ui.lineEditCat.text()
+        nombre=self.ui.lineEditCat.text()
+        categoria=CtrlCategoria(self.conexion)
+        datosCategoria=categoria.cargarDatosCategoria(nombre)
+
+        if datosCategoria!=None:
             print(datosCategoria)
             self.ui.combCatPadre.setCurrentText(datosCategoria)
             self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat,
                                self.ui.btnEditCat, self.ui.btnElimCat, True)
         else:
             QMessageBox.warning(self, "ERROR", "No existe la Categoría!")
-
     def agregarCategoria(self):
-        if True:
-            categoria=CtrlCategoria(self.conexion)
-            nombre=self.ui.lineEditCat.text()
+        categoria=CtrlCategoria(self.conexion)
+        nombre=self.ui.lineEditCat.text()
+        if nombre != '':
             idCategoria=categoria.cargarIdCategoria(self.ui.combCatPadre.currentText())
-            print('holaaaa',nombre,idCategoria)
+            print('id cate ',idCategoria)
             categoriaDatos=(nombre,idCategoria)
+            #if categoria.guardarCategoria(categoriaDatos[0]):
             categoria.guardarCategoria(categoriaDatos)
             self.cancelarCategoria()
             QMessageBox.information(self, "Registro", "Categoría agregada con éxito!")
+            #else: QMessageBox.warning(self, "ERROR", "Ya existe una categoría con ese nombre!")
         else:
-            QMessageBox.information(self, "Categoría", "!")
-
+            QMessageBox.information(self, "Categoría", "Llene todos los campos!")
     def editarCategoria(self):
         if True:
             categoria=CtrlCategoria(self.conexion)
@@ -537,7 +576,6 @@ class ControladorPrincipal(QMainWindow):
             pass
         else:
             QMessageBox.information(self, "Categoría", "!")
-
     def eliminarCategoria(self):
         if True:
             nombre=self.ui.lineEditCat.text()
@@ -549,19 +587,25 @@ class ControladorPrincipal(QMainWindow):
                                self.ui.btnEditCat, self.ui.btnElimCat,False)
         else:
             QMessageBox.information(self, "Categoría", "!")
-
     def cancelarCategoria(self):
+        self.cargarComboFabricante(self.ui.combFabric_Marca)
+        self.cargarComboCategoria()
+        self.cargarComboMarca()
+        self.cargarComboCategoriaProducto()
+        self.cargarComboProductos()
         self.ui.lineEditCat.setText("")
         self.manejoBotones(self.ui.btnBuscCat, self.ui.btnAgrCat, self.ui.btnEditCat, self.ui.btnElimCat,False)
 
     ##PRODUCTO
 
     def buscarProducto(self):
-        if True:
-            self.variableGlobal=self.ui.txtDescripcion.text()
-            nombre=self.ui.txtDescripcion.text()
-            producto=CtrlProducto(self.conexion)
-            datosProducto=producto.cargarDatosProducto(nombre)
+        self.variableGlobal=self.ui.txtDescripcion.text()
+        marca=CtrlMarca(self.conexion)
+        nombre=self.ui.txtDescripcion.text()
+        producto=CtrlProducto(self.conexion)
+        marcaId=marca.cargarIdMarca(self.ui.combMarcaProd.currentText())
+        datosProducto=producto.cargarDatosProducto(nombre, marcaId)
+        if datosProducto!=None:
             print('datososs: ',datosProducto)
             self.ui.txtTamanio.setText(datosProducto[0])
             self.ui.txtMedida.setText(datosProducto[1])
@@ -569,28 +613,23 @@ class ControladorPrincipal(QMainWindow):
             self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd,
                                self.ui.btnEditProd, self.ui.btnElimProd, True)
         else:
-            QMessageBox.warning(self, "ERROR", "No existe el Producto!")
-
+            QMessageBox.warning(self, "ERROR", "No existe el Producto con esa marca!")
     def agregarProducto(self):
-        if True:
-            producto=CtrlProducto(self.conexion)
-            marca=CtrlMarca(self.conexion)
-            categoria=CtrlCategoria(self.conexion)
-
-            nombre=self.ui.txtDescripcion.text()
-            marcaId=marca.cargarIdMarca(self.ui.combMarcaProd.currentText())
-            tamanio=self.ui.txtTamanio.text()
-            medida=self.ui.txtMedida.text()
-            categoriaId=categoria.cargarIdCategoria(self.ui.combCatProd.currentText())#otra tabla
+        producto=CtrlProducto(self.conexion)
+        marca=CtrlMarca(self.conexion)
+        categoria=CtrlCategoria(self.conexion)
+        nombre=self.ui.txtDescripcion.text()
+        marcaId=marca.cargarIdMarca(self.ui.combMarcaProd.currentText())
+        tamanio=self.ui.txtTamanio.text()
+        medida=self.ui.txtMedida.text()
+        if nombre!='' and tamanio != '' and medida != '':
             datos=(nombre,tamanio,medida,marcaId)
-            producto.guardarProductp(datos)
-            self.cancelarProducto()
-
-            QMessageBox.information(self, "Registro", "Producto agregado con éxito!")
-            pass
+            if producto.guardarProductp(datos):
+                self.cancelarProducto()
+                QMessageBox.information(self, "Registro", "Producto agregado con éxito!")
+            else: QMessageBox.warning(self, "ERROR", "Ya existe un producto con ese nombre y esa marca!")
         else:
-            QMessageBox.information(self, "Producto", "!")
-
+            QMessageBox.information(self, "Producto", "Llene todos los campos!")
     def editarProducto(self):
         if True:
             producto=CtrlProducto(self.conexion)
@@ -602,12 +641,12 @@ class ControladorPrincipal(QMainWindow):
             medida=self.ui.txtMedida.text()
             datos=(idProducto,nombre,tamanio,medida,idMarca)
             producto.modificarProducto(datos)
+            self.cancelarProducto()
             self.manejoBotones(self.ui.btnBuscProduc, self.ui.btnAgrProd,
                                self.ui.btnEditProd, self.ui.btnElimProd,False)
             QMessageBox.information(self, "Registro", "Producto modificado con éxito!")
         else:
             QMessageBox.information(self, "Producto", "!")
-
     def eliminarProducto(self):
         if True:
             nombre=self.ui.txtDescripcion.text()
@@ -620,7 +659,6 @@ class ControladorPrincipal(QMainWindow):
             pass
         else:
             QMessageBox.information(self, "Producto", "!")
-
     def agregarProductoCategoria(self):
         producto=CtrlProducto(self.conexion)
         categoria=CtrlCategoria(self.conexion)
@@ -629,10 +667,16 @@ class ControladorPrincipal(QMainWindow):
         productoId=producto.cargarIdProducto(self.ui.combCatProd_2.currentText())
         categoriaId=categoria.cargarIdCategoria(self.ui.combCatProd.currentText())
         datos=(productoId,categoriaId)
-        categoria_producto.guardarCategoriaProducto(datos)
-        QMessageBox.information(self, "Registro", "Producto Categoria Agregado con éxito!")
-
+        if categoria_producto.guardarCategoriaProducto(datos):
+            QMessageBox.information(self, "Registro", "Producto Categoria Agregado con éxito!")
+        else:
+            QMessageBox.information(self, "Registro", "Ya existe la relación!")
     def cancelarProducto(self):
+        self.cargarComboFabricante(self.ui.combFabric_Marca)
+        self.cargarComboCategoria()
+        self.cargarComboMarca()
+        self.cargarComboCategoriaProducto()
+        self.cargarComboProductos()
         self.ui.txtDescripcion.setText("")
         self.ui.txtTamanio.setText("")
         self.ui.txtMedida.setText("")
@@ -672,10 +716,13 @@ class ControladorPrincipal(QMainWindow):
         return True
 
     def agregarTablaCliente(self):
-        self.entidad=CtrlCliente(self.conexion)
-        datos=self.entidad.cargarTablaClientes()
-        print(list(datos))
-        self.cargarDatosTabla(datos,['id','Nombre','Apellido','Dirección','Email', 'Teléfono', 'Descuento'],self.ui.tablaClientes)
+        self.cliente=CtrlCliente(self.conexion)
+        if self.ui.cbxaprov.isChecked():
+            self.cargarDatosTabla(self.cliente.cargarTablaClientesConDescuento(), ['id', 'Nombre', 'Apellido', 'Dirección', 'Email', 'Teléfono', 'Descuento'], self.ui.tablaClientes)
+        else:
+            self.cargarDatosTabla(self.cliente.cargarTablaClientes(), ['id', 'Nombre', 'Apellido', 'Dirección', 'Email', 'Teléfono', 'Descuento'], self.ui.tablaClientes)
+
+
     def buscarCliente(self):
         id=self.ui.txtIdentificacion.text()
         self.cliente=CtrlCliente(self.conexion)
@@ -737,6 +784,7 @@ class ControladorPrincipal(QMainWindow):
             datos=(id,nombre,apellido,direccion,email,telefono,socio)
             self.cliente=CtrlCliente(self.conexion)
             self.cliente.modificarCliente(datos)
+            QMessageBox.information(self, "Registro", "Cliente modificado con éxito!")
             self.cancelarCliente()
             self.agregarTablaCliente()
             self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
@@ -750,6 +798,7 @@ class ControladorPrincipal(QMainWindow):
             id=self.ui.txtIdentificacion.text()
             self.cliente=CtrlCliente(self.conexion)
             self.cliente.eliminarCliente(id)
+            QMessageBox.information(self, "Registro", "Cliente eliminado con éxito!")
             self.cancelarCliente()
             self.agregarTablaCliente()
             self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser,
@@ -768,7 +817,6 @@ class ControladorPrincipal(QMainWindow):
         self.ui.radiobtn_siuser.setChecked(False)
         self.ui.radiobtn_nouser.setChecked(False)
         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
-
 
 
     #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
@@ -795,6 +843,7 @@ class ControladorPrincipal(QMainWindow):
         self.ui.combCatPadre.clear()
         categoria=CtrlCategoria(self.conexion)
         datos=categoria.cargarTablaCategoria()
+        #self.ui.combCatPadre.addItem("")
         self.ui.combCatPadre.addItems([item[1] for item in datos])
 
     def cargarComboCategoriaProducto(self):

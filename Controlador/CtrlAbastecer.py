@@ -17,3 +17,4 @@ class CtrlAbastecer():
     def cargarPrecioBase(self,id):
         abastecer=self.insertar.getPriceBase(id)
         return abastecer
+
