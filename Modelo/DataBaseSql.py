@@ -310,11 +310,27 @@ class DataBaseSql():
             return ultimoId
     def dameTablaPorFechaVentas(self, fecha):
         puntero=self.conexion.cursor()
-        sql=('select *'
-             ' from factura_producto '
-             ' where factura_producto.fecha = %s ')
+        sql=('''SELECT
+                     f.id AS id_factura,
+                     s.nombre AS nombre_sucursal,
+                     f.id_cliente,
+                     f.fecha,
+                     SUM(fp.cantidad * fp.precio_unitario) AS precio_total
+                FROM
+                    Factura f
+                JOIN
+                    Sucursal s ON f.id_sucursal = s.id
+                JOIN
+                    Factura_Producto fp ON f.id = fp.id_factura
+                WHERE
+                    f.fecha = %s 
+                GROUP BY
+                    f.id, s.nombre, f.id_cliente, f.fecha
+                ORDER BY
+                    f.fecha DESC; 
+        ''')
         puntero.execute(sql,(fecha,))
-        detalles=puntero.fetchone()
+        detalles=puntero.fetchall()
         return detalles
     def dameTablaVentas(self):
         puntero=self.conexion.cursor()
@@ -474,7 +490,6 @@ class DataBaseSql():
         sql='delete from  InventarioFactura'
         puntero.execute(sql)
         self.conexion.commit()
-
     def restarCantidadNuevaTabla(self,datos):
         puntero=self.conexion.cursor()
         sql=('SELECT cantidad '
@@ -489,4 +504,81 @@ class DataBaseSql():
               'where id_sucursal = %s and id_producto = %s')
         puntero.execute(sql2,(cantidadRestada,datos[2],datos[0]))
 
+        self.conexion.commit()
+
+#================== INVENTARIO DEL SUPERMERCADO CONSULTAS ========================
+    def dameTablaPorCategoriaInventario(self, sucursal, categoria):
+        puntero=self.conexion.cursor()
+        sql=('''SELECT
+                    p.id,
+                    p.nombre AS nombre_producto,
+                    i.cantidad,
+                    i.precio
+                FROM
+                    InventarioFactura i
+                JOIN
+                    Sucursal s ON i.id_sucursal = s.id
+                JOIN
+                    Producto p ON i.id_producto = p.id
+                JOIN
+                    Producto_Categoria pc ON p.id = pc.id_producto
+                JOIN
+                    Categoria c ON pc.id_categoria = c.id
+                WHERE
+                    s.nombre = %s AND c.nombre = %s; 
+            ''')
+        puntero.execute(sql,(sucursal, categoria))
+        detalles=puntero.fetchall()
+        return detalles
+    def dameTablaInventario(self, sucursal):
+        puntero=self.conexion.cursor()
+        sql=('''SELECT
+                    p.id,
+                    p.nombre AS nombre_producto,
+                    i.cantidad,
+                    i.precio
+                FROM
+                    InventarioFactura i
+                JOIN
+                    Sucursal s ON i.id_sucursal = s.id
+                JOIN
+                    Producto p ON i.id_producto = p.id
+                WHERE
+                    s.nombre = %s; 
+                ''')
+        puntero.execute(sql,(sucursal,))
+        detalles=puntero.fetchall()
+        return detalles
+
+#=================== MANEJO DE VISTAS ====================
+    def crearVistaTemporal(self):
+        puntero = self.conexion.cursor()
+        sql = '''
+            CREATE TEMPORARY VIEW vista_temporal AS
+                SELECT
+                    i.id AS id_inventario,
+                    s.nombre AS nombre_sucursal,
+                    p.nombre AS nombre_producto,
+                    i.cantidad,
+                    i.fecha,
+                    i.precio_base
+                FROM
+                    Inventario i
+                JOIN
+                    Sucursal s ON i.id_sucursal = s.id
+                JOIN
+                    Producto p ON i.id_producto = p.id;
+
+        '''
+        puntero.execute(sql)
+        self.conexion.commit()
+
+    def AgregarDatosVista(self,id_suc, id_pro, cantidad, precio, fecha):
+        # Inserción en la vista temporal
+        puntero = self.conexion.cursor()
+        sql = '''
+            INSERT INTO vista_temporal (id_factura, nombre_sucursal, id_cliente, fecha, precio_total)
+            VALUES (%s, %s, %s, %s, %s);
+        '''
+        puntero.execute(sql, (id_suc, id_pro, cantidad, precio, fecha))
         self.conexion.commit()
