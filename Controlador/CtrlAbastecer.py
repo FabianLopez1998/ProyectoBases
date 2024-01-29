@@ -13,3 +13,8 @@ class CtrlAbastecer():
     def cargarTablaProductosProveedor(self, proveedor):
         productos=self.insertar.getTablaProductosPorProveedor(proveedor)
         return productos
+
+    def cargarPrecioBase(self,id):
+        abastecer=self.insertar.getPriceBase(id)
+        return abastecer
+

@@ -9,7 +9,7 @@ class DataBaseConection:
             self.connection=psycopg2.connect(
                 host='localhost',
                 user='postgres',
-                password='admin',
+                password='1234',
                 database='BD_Centro_Comercial'
             )
             print('Conexion Exitosa...')
