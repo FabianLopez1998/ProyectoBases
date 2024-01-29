@@ -109,7 +109,9 @@ class ControladorPrincipal(QMainWindow):
         self.ui.btn_cancelaruser.clicked.connect(self.cancelarCliente)
         self.ui.cbxaprov.stateChanged.connect(self.agregarTablaCliente)
         #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
-
+        self.ui.btnBuscCatInv.clicked.connect(self.cargarInventario)
+        self.ui.btn_actualizarInv.clicked.connect(self.actualizarInventario)
+        self.ui.box_sucursalesInventario.currentIndexChanged.connect(self.cargarInventario)
 
         #-------------------------------------- PAGINA7: DETALLES DE VENTAS  -------------------------------------
         self.ui.btnBuscVenta.clicked.connect(self.cargarDetallesVenta)
@@ -134,6 +136,9 @@ class ControladorPrincipal(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(1)
         self.cargarFechaActual()
         self.cargarIdFactura()
+        self.ui.groupBox_6.setEnabled(False)
+        self.ui.groupBox_8.setEnabled(False)
+        self.ui.groupBox_9.setEnabled(False)
     def pagabastecer(self):
         self.ui.btn_agregarAbast.setEnabled(False)
         self.ui.btn_quitarAbast.setEnabled(False)
@@ -157,6 +162,11 @@ class ControladorPrincipal(QMainWindow):
         self.manejoBotones(self.ui.btn_buscarUser, self.ui.btn_agregaruser, self.ui.btn_modificaruser, self.ui.btn_eliminaruser, False)
     def paginventario(self):
         self.ui.stackedWidget.setCurrentIndex(5)
+        self.ui.box_sucursalesInventario.clear()
+        sucursal=CtrlSucursal(self.conexion)
+        datos=sucursal.cargarTablaSucursal()
+        self.ui.box_sucursalesInventario.addItems([item[1] for item in datos])
+        self.cargarInventario()
     def pagventas(self):
         self.ui.stackedWidget.setCurrentIndex(6)
         self.cargarDetallesVenta()
@@ -308,6 +318,9 @@ class ControladorPrincipal(QMainWindow):
                 self.ui.lblDescuento.setText('Si')
             elif datosCliente[6]==False:
                 self.ui.lblDescuento.setText('No')
+            self.ui.groupBox_6.setEnabled(True)
+            self.ui.groupBox_8.setEnabled(True)
+            self.ui.groupBox_9.setEnabled(True)
         else:
             respuesta = QMessageBox.question(None, 'Advertencia', '¿El cliente no existe, desea agregar un nuevo cliente?', QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             if respuesta == QMessageBox.StandardButton.Yes:
@@ -343,8 +356,27 @@ class ControladorPrincipal(QMainWindow):
         self.ui.tabla_productosfac.setRowCount(0)
         self.ui.tabla_productosfac.setColumnCount(5)
         self.ui.tabla_productosfac.setHorizontalHeaderLabels(['Codigo','Nombre','Cantidad','Precio U','Precio T'])
+        self.ui.groupBox_6.setEnabled(False)
+        self.ui.groupBox_8.setEnabled(False)
+        self.ui.groupBox_9.setEnabled(False)
 
+    def generarFactura(self):
+        facturaProducto=CtrlFacturaProducto(self.conexion)
+        factura=CtrlFactura(self.conexion)
+        sucursal=CtrlSucursal(self.conexion)
+        fecha=self.ui.lblFecha.text()
+        idSucursal=sucursal.cargarIdSucursal(self.ui.lblSucursal.text())
+        idCliente=self.ui.txtIdentificacion_3.text()
+        datos=(fecha,idSucursal,idCliente)
+        factura.guardarFactura(datos)
+        nuevaLista=[(tupla[0], tupla[2], tupla[3],self.ui.lblNumeroFactura_2.text()) for tupla in self.listaTablaFactura]
+        for data in nuevaLista:
+            facturaProducto.guardarFacturaProducto(data)
 
+        QMessageBox.information(self, "Registro", "Factura realizada con éxito!")
+        self.ui.groupBox_6.setEnabled(False)
+        self.ui.groupBox_8.setEnabled(False)
+        self.ui.groupBox_9.setEnabled(False)
 
 #-------------------------------------- PAGINA3: ABASTECIMIENTO DEL SUPERMARKET -------------------------------------
 
@@ -384,7 +416,6 @@ class ControladorPrincipal(QMainWindow):
         cantidad = self.ui.box_cantidadabast.text()
         precio = self.ui.doubleSpinBoxAbast.value()
         fecha = datetime.now()
-        print('fecha, ',fecha)
         self.lista.append((id_suc, id_pro, cantidad, precio, fecha))
         self.cargarTablaInventario()
         self.limpiarAbastecimiento()
@@ -404,22 +435,11 @@ class ControladorPrincipal(QMainWindow):
         for datosNuevos in datosInventario:
             abastecer.insertarDatosTablaNueva(datosNuevos)
 
+        QMessageBox.information(self, "Registro", "Abastecimiento realizado con éxito!")
         self.limpiarAbastecimiento()
         self.lista.clear()
         self.cargarTablaInventario()
 
-    def generarFactura(self):
-        facturaProducto=CtrlFacturaProducto(self.conexion)
-        factura=CtrlFactura(self.conexion)
-        sucursal=CtrlSucursal(self.conexion)
-        fecha=self.ui.lblFecha.text()
-        idSucursal=sucursal.cargarIdSucursal(self.ui.lblSucursal.text())
-        idCliente=self.ui.txtIdentificacion_3.text()
-        datos=(fecha,idSucursal,idCliente)
-        factura.guardarFactura(datos)
-        nuevaLista=[(tupla[0], tupla[2], tupla[3],self.ui.lblNumeroFactura_2.text()) for tupla in self.listaTablaFactura]
-        for data in nuevaLista:
-            facturaProducto.guardarFacturaProducto(data)
 
     #-------------------------------------- PAGINA4: REGISTRO DE TODOS LOS DATOS  -------------------------------------
 
@@ -832,6 +852,17 @@ class ControladorPrincipal(QMainWindow):
 
 
     #-------------------------------------- PAGINA6: INVENTARIO  -------------------------------------
+
+    def cargarInventario(self):
+        self.inv=CtrlAbastecer(self.conexion)
+        sucursal = self.ui.box_sucursalesInventario.currentText()
+        categoria = self.ui.lineEditCat_2.text()
+        self.cargarDatosTabla(self.inv.cargaTablaInventario(sucursal, categoria), ['ID producto', 'Producto', 'Cantidad', 'Precio'], self.ui.tabla_inventario_2)
+        pass
+    def actualizarInventario(self):
+        self.ui.lineEditCat_2.setText('')
+        self.cargarInventario()
+        pass
     #-------------------------------------- PAGINA7: DETALLES DE VENTAS  -------------------------------------
 
     def cargarDetallesVenta(self):
@@ -848,7 +879,6 @@ class ControladorPrincipal(QMainWindow):
     def cargarDetallesAbastecimiento(self):
         self.abastecer=CtrlAbastecer(self.conexion)
         fecha = self.ui.txtBuscarFecha_2.text()
-        print("HOLAA " + fecha)
         self.cargarDatosTabla(self.abastecer.cargarTabla(fecha), ['Sucursal', 'Producto', 'Cantidad', 'Precio base', 'Fecha'], self.ui.tabla_detalleAbast)
 
     def actualizarCargarAbast(self):

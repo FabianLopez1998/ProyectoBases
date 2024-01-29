@@ -31,10 +31,24 @@ class CtrlAbastecer():
         self.insertar.vaciarTablaNueva()
 
     def cargarTabla(self, fecha):
-        if fecha == '':
-            abast = self.insertar.dameTablaAbastecimientos()
-        else:
-            fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
-            abast = self.insertar.dameTablaPorFecha(fecha_obj)
-        return abast
+        try:
+            if fecha == '':
+                abast = self.insertar.dameTablaAbastecimientos()
+            else:
+                fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+                abast = self.insertar.dameTablaPorFecha(fecha_obj)
+            return abast
+        except:
+            return []
+
+
+    def cargaTablaInventario(self, sucursal, categoria):
+        try:
+            if categoria == '':
+                inv = self.insertar.dameTablaInventario(sucursal)
+            else:
+                inv = self.insertar.dameTablaPorCategoriaInventario(sucursal, categoria)
+            return inv
+        except:
+            return []
 

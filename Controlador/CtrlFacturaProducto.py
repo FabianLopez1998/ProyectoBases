@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Modelo.DataBaseSql import DataBaseSql
 
 class CtrlFacturaProducto():
@@ -32,8 +34,12 @@ class CtrlFacturaProducto():
 
 
     def cargarTabla(self, fecha):
-        if fecha == '':
-            ventas = self.insertar.dameTablaVentas()
-        else:
-            ventas = self.insertar.dameTablaPorFechaVentas(fecha)
-        return ventas
+        try:
+            if fecha == '':
+                ventas = self.insertar.dameTablaVentas()
+            else:
+                fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+                ventas = self.insertar.dameTablaPorFechaVentas(fecha)
+            return ventas
+        except:
+            return []
