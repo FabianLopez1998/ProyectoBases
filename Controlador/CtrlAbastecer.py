@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Modelo.DataBaseSql import DataBaseSql
 
 class CtrlAbastecer():
@@ -17,4 +19,14 @@ class CtrlAbastecer():
     def cargarPrecioBase(self,id):
         abastecer=self.insertar.getPriceBase(id)
         return abastecer
+
+
+    def cargarTabla(self, fecha):
+        if fecha == '':
+            abast = self.insertar.dameTablaAbastecimientos()
+        else:
+            fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+            print("Holaaa")
+            abast = self.insertar.dameTablaPorFecha(fecha_obj)
+        return abast
 
